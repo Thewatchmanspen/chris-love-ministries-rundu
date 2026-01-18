@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Christ Love Ministries Rundu Branch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <img src="Title Logo.png" alt="Christ Love Ministries Logo" class="church-logo">
+    <h1>Christ Love Ministries</h1>
+    <p>Rundu Branch</p>
+
+    <!-- Hamburger for mobile -->
+    <div class="hamburger" onclick="toggleNav()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </header>
+
+  <!-- NAVIGATION -->
+  <nav class="main-nav" id="main-nav">
+    <a class="tab-link active" data-tab="home">Home</a>
+    <a class="tab-link" data-tab="about">About</a>
+    <a class="tab-link" data-tab="sermons">Sermons</a>
+    <a class="tab-link" data-tab="contact">Contact</a>
+  </nav>
+
+  <!-- CONTENT WRAPPER -->
+  <div id="content-wrapper">
+
+    <!-- HOME CONTENT -->
+    <div class="home-content" id="home-content">
+      <h2>Welcome to Christ Love Ministries</h2>
+      <p>Discover Christlike Faith, Love, Truth, Holiness, and Righteousness for all nations. Explore sermons, Bible verses, and our mission to spread the love of Jesus Christ.</p>
+
+      <!-- Netflix-style cards -->
+      <div class="card-row">
+        <div class="card">
+          <h3>Sermons</h3>
+          <p>Watch our latest sermons online.</p>
+        </div>
+        <div class="card">
+          <h3>Verse of the Day</h3>
+          <p>John 3:16 - For God so loved the world...</p>
+        </div>
+        <div class="card">
+          <h3>About Us</h3>
+          <p>Learn about our vision and mission.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div class="tab-page" id="about-page">
+      <span class="back-btn" onclick="closePage()">Back</span>
+      <h2>About</h2>
+
+      <div class="vision-mission-block">
+        <h3>Vision</h3>
+        <p>Christlike Faith, Love, Truth, Holiness And Righteousness For All Nations.</p>
+        <p><em>1 Timothy 1:5</em></p>
+      </div>
+
+      <div class="vision-mission-block">
+        <h3>Mission</h3>
+        <p>As we receive the Love and Mercy of God, we lift up the name of Jesus in powerful spiritual warfare and intercession wherever the Holy Spirit leads us. We plant churches, teach and demonstrate the love of Jesus Christ that passes all understanding so that all might accept Jesus Christ as their all in all.</p>
+        <p><em>Ephesians 3:14-19</em></p>
+      </div>
+    </div>
+
+    <!-- SERMONS PAGE -->
+    <div class="tab-page" id="sermons-page">
+      <span class="back-btn" onclick="closePage()">Back</span>
+      <h2>Sermons</h2>
+
+      <div class="card-row">
+        <div class="card"><h3>Sermon 1</h3><p>Watch the video</p></div>
+        <div class="card"><h3>Sermon 2</h3><p>Watch the video</p></div>
+        <div class="card"><h3>Sermon 3</h3><p>Watch the video</p></div>
+      </div>
+    </div>
+
+    <!-- CONTACT PAGE -->
+    <div class="tab-page" id="contact-page">
+      <span class="back-btn" onclick="closePage()">Back</span>
+      <h2>Contact</h2>
+
+      <div class="card-row">
+        <div class="card"><h3>Phone</h3><p>+XXX XXX XXXX</p></div>
+        <div class="card"><h3>Email</h3><p>info@christloveministries.com</p></div>
+        <div class="card"><h3>Location</h3><p>Rundu Branch</p></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // Tab logic
+    const links = document.querySelectorAll('.tab-link');
+    const pages = document.querySelectorAll('.tab-page');
+    const homeContent = document.getElementById('home-content');
+
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        const tab = link.dataset.tab;
+
+        // Set active tab
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+
+        // Show overlay page
+        pages.forEach(page => {
+          if(page.id === tab+'-page') page.classList.add('active');
+          else page.classList.remove('active');
+        });
+
+        // Blur home if not home
+        if(tab !== 'home') homeContent.classList.add('blur-bg');
+        else homeContent.classList.remove('blur-bg');
+      });
+    });
+
+    // Close overlay
+    function closePage(){
+      pages.forEach(page => page.classList.remove('active'));
+      homeContent.classList.remove('blur-bg');
+      links.forEach(l => l.classList.remove('active'));
+      document.querySelector('.tab-link[data-tab="home"]').classList.add('active');
+    }
+
+    // Toggle hamburger menu
+    function toggleNav(){
+      document.getElementById('main-nav').classList.toggle('show');
+    }
+  </script>
+
+</body>
+      </html>
