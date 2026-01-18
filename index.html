@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Christ Love Ministries Rundu Branch</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  /* Reset & basic styles */
+  * {margin:0; padding:0; box-sizing:border-box;}
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f4f4f4;
+    color:#000;
+    overflow-x:hidden;
+  }
+
+  /* HEADER */
+  .site-header {
+    background:#2c3e50;
+    color:white;
+    text-align:center;
+    padding:30px;
+    position: relative;
+    overflow:hidden;
+  }
+
+  .church-logo {
+    max-width:120px;
+    display:block;
+    margin:0 auto 15px;
+    border-radius:50%;
+    box-shadow:0 4px 8px rgba(0,0,0,0.3);
+    transform: translateY(-100px);
+    opacity:0;
+    animation: logoDrop 1s forwards;
+  }
+
+  @keyframes logoDrop {
+    to {transform: translateY(0); opacity:1;}
+  }
+
+  .site-header h1 {
+    margin-bottom:5px;
+    opacity:0;
+    animation: fadeIn 1s forwards;
+    animation-delay:0.6s;
+  }
+
+  .site-header p {
+    margin-top:0;
+    opacity:0;
+    animation: fadeIn 1s forwards;
+    animation-delay:0.8s;
+  }
+
+  @keyframes fadeIn { to {opacity:1;} }
+
+  /* NAVIGATION */
+  .main-nav {
+    display:flex;
+    justify-content:center;
+    background:#34495e;
+    position: relative;
+    opacity:0;
+    animation: fadeIn 1s forwards;
+    animation-delay:1s;
+  }
+
+  .main-nav a {
+    color:white;
+    text-decoration:none;
+    padding:15px 20px;
+    position: relative;
+    font-weight:bold;
+    cursor:pointer;
+    transition: color 0.3s;
+  }
+  .main-nav a:hover {color:#f1c40f;}
+  .main-nav a.active::after {
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:100%;
+    height:3px;
+    background:#f1c40f;
+  }
+
+  /* Hamburger for mobile */
+  .hamburger {
+    display:none;
+    flex-direction:column;
+    cursor:pointer;
+    margin-right:20px;
+  }
+  .hamburger div {
+    width:25px;
+    height:3px;
+    background:white;
+    margin:4px 0;
+  }
+  @media (max-width:600px){
+    .main-nav {flex-direction:column; display:none;}
+    .main-nav.show {display:flex;}
+    .hamburger {display:flex;}
+  }
+
+  /* MAIN CONTENT WRAPPER */
+  #content-wrapper {
+    max-width:900px;
+    margin:20px auto;
+    position:relative;
+    min-height:300px;
+  }
+
+  .home-content {
+    background:white;
+    border-radius:5px;
+    padding:20px;
+    opacity:0;
+    animation: fadeIn 1s forwards;
+    animation-delay:1.2s;
+  }
+
+  /* TAB PAGE OVERLAYS */
+  .tab-page {
+    position:absolute;
+    top:0; left:0;
+    width:100%;
+    background:white;
+    border-radius:5px;
+    padding:20px;
+    min-height:300px;
+    transform: translateX(100%);
+    opacity:0;
+    visibility:hidden;
+    transition: all 0.6s ease;
+    z-index:2;
+  }
+
+  .tab-page.active {
+    transform: translateX(0);
+    opacity:1;
+    visibility:visible;
+  }
+
+  /* Blur only home content */
+  .blur-bg {
+    filter: blur(6px);
+    transition: filter 0.6s ease;
+  }
+
+  /* Back button */
+  .back-btn {
+    display:inline-block;
+    margin-bottom:15px;
+    padding:8px 15px;
+    background:#2c3e50;
+    color:white;
+    text-decoration:none;
+    border-radius:5px;
+    cursor:pointer;
+  }
+
+  /* Tab Page Title */
+  .tab-page h2 {text-align:center; margin-bottom:20px;}
+
+  /* Animated text fade-in + slide up */
+  .fade-in {
+    opacity:0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s forwards;
+  }
+  @keyframes fadeInUp {
+    to {opacity:1; transform:translateY(0);}
+  }
+
+  /* Vision/Mission blocks */
+  .vision-mission-block {
+    background:#f9f9f9;
+    padding:15px 20px;
+    border-radius:5px;
+    margin-bottom:20px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+    opacity:0;
+    transform: translateX(50px);
+    animation: slideInLeft 0.8s forwards;
+  }
+  .vision-mission-block:nth-child(2) { animation-delay:0.3s; }
+  .vision-mission-block:nth-child(3) { animation-delay:0.6s; }
+
+  @keyframes slideInLeft {
+    to {opacity:1; transform: translateX(0);}
+  }
+
+  .vision-mission-block h3 {
+    margin-bottom:10px;
+    color:#2c3e50;
+    font-size:1.2rem;
+  }
+  .vision-mission-block p {margin-bottom:8px; line-height:1.5;}
+
+  @media (max-width:600px){
+    #content-wrapper {padding:0 15px;}
+  }
+</style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <img src="Title Logo.png" alt="Christ Love Ministries Logo" class="church-logo">
+    <h1>Christ Love Ministries</h1>
+    <p>Rundu Branch</p>
+
+    <!-- Hamburger -->
+    <div class="hamburger" onclick="toggleNav()">
+      <div></div><div></div><div></div>
+    </div>
+  </header>
+
+  <!-- NAVIGATION -->
+  <nav class="main-nav" id="main-nav">
+    <a class="tab-link active" data-tab="home">Home</a>
+    <a class="tab-link" data-tab="about">About</a>
+    <a class="tab-link" data-tab="sermons">Sermons</a>
+    <a class="tab-link" data-tab="contact">Contact</a>
+  </nav>
+
+  <!-- CONTENT WRAPPER -->
+  <div id="content-wrapper">
+    <!-- Home -->
+    <div class="home-content fade-in" id="home-content">
+      <h2>Welcome</h2>
+      <p>We are a Christ-centered ministry dedicated to teaching the Word of God, walking in love,
+      and transforming lives through the Gospel of Jesus Christ. Explore our About page to learn
+      more about our vision and mission, watch our latest sermons, or contact us for prayer and guidance.</p>
+    </div>
+
+    <!-- About -->
+    <div class="tab-page" id="about-page">
+      <span class="back-btn" onclick="closePage()">Back</span>
+      <h2>About</h2>
+
+      <div class="vision-mission-block">
+        <h3>Vision</h3>
+        <p>Christlike Faith, Love, Truth, Holiness And Righteousness For All Nations.</p>
+        <p><em>1 Timothy 1:5</em></p>
+      </div>
+
+      <div class="vision-mission-block">
+        <h3>Mission</h3>
+        <p>As we receive the Love and Mercy of God, we lift up the name of Jesus in powerful spiritual warfare
+        and intercession wherever the Holy Spirit leads us. We plant churches, teach and demonstrate the love
+        of Jesus Christ that passes all understanding so that all might accept Jesus Christ as their all in all.</p>
+        <p><em>Ephesians 3:14-19</em></p>
+      </div>
+    </div>
+
+    <!-- Sermons -->
+    <div class="tab-page" id="sermons-page">
+      <span class="back-btn" onclick="closePage()">Back</span>
+      <h2>Sermons</h2>
+      <p>Add sermon videos or audio links here.</p>
+    </div>
+
+    <!-- Contact -->
+    <div class="tab-page" id="contact-page">
+      <span class="back-btn" onclick="closePage()">Back</span>
+      <h2>Contact</h2>
+      <p>Phone: +XXX XXX XXXX</p>
+      <p>Email: info@christloveministries.com</p>
+      <p>Location: Rundu Branch</p>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script>
+    const links = document.querySelectorAll('.tab-link');
+    const pages = document.querySelectorAll('.tab-page');
+    const homeContent = document.getElementById('home-content');
+
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        const tab = link.dataset.tab;
+
+        // Highlight active tab
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+
+        // Show overlay page
+        pages.forEach(page => {
+          if(page.id === tab+'-page') page.classList.add('active');
+          else page.classList.remove('active');
+        });
+
+        // Blur only home content
+        if(tab !== 'home') homeContent.classList.add('blur-bg');
+        else homeContent.classList.remove('blur-bg');
+      });
+    });
+
+    function closePage(){
+      pages.forEach(page => page.classList.remove('active'));
+      homeContent.classList.remove('blur-bg');
+      links.forEach(l => l.classList.remove('active'));
+      document.querySelector('.tab-link[data-tab="home"]').classList.add('active');
+    }
+
+    function toggleNav(){
+      document.getElementById('main-nav').classList.toggle('show');
+    }
+  </script>
+
+</body>
+  </html>
