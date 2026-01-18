@@ -1,0 +1,239 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* VARIABLES */
+:root {
+  --primary-bg: #111;
+  --accent-color: #f1c40f;
+  --card-bg: #1c1c1c;
+  --text-color: #eee;
+  --shadow: 0 8px 20px rgba(0,0,0,0.5);
+  --radius: 10px;
+}
+
+/* BODY */
+body {
+  font-family: 'Arial', sans-serif;
+  background: var(--primary-bg);
+  color: var(--text-color);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* HEADER */
+.site-header {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(to bottom, #111, #222);
+  position: relative;
+}
+
+.church-logo {
+  width: 140px;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+  margin: 0 auto 15px;
+  display: block;
+}
+
+.site-header h1 {
+  font-size: 2.5rem;
+  color: var(--accent-color);
+  margin-bottom: 5px;
+}
+
+.site-header p {
+  font-size: 1.2rem;
+  color: #ccc;
+}
+
+/* HAMBURGER */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  top: 40px;
+}
+
+.hamburger div {
+  width: 30px;
+  height: 3px;
+  background: var(--text-color);
+  margin: 5px 0;
+  transition: all 0.3s;
+}
+
+/* NAVIGATION */
+.main-nav {
+  display: flex;
+  justify-content: center;
+  background: rgba(20,20,20,0.9);
+}
+
+.main-nav a {
+  text-decoration: none;
+  color: var(--text-color);
+  padding: 15px 25px;
+  font-weight: bold;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.main-nav a:hover {
+  color: var(--accent-color);
+}
+
+.main-nav a.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  width: 80%;
+  height: 3px;
+  background: var(--accent-color);
+  border-radius: 3px;
+}
+
+/* CONTENT WRAPPER */
+#content-wrapper {
+  max-width: 1000px;
+  margin: 30px auto;
+  position: relative;
+}
+
+/* HOME CONTENT */
+.home-content h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  text-align: center;
+  color: var(--accent-color);
+}
+
+.home-content p {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+/* CARD ROWS */
+.card-row {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scroll-behavior: smooth;
+}
+
+.card {
+  flex: 0 0 250px;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  color: var(--accent-color);
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.7);
+}
+
+/* TAB PAGES */
+.tab-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 30px;
+  min-height: 100%;
+  background: rgba(0,0,0,0.95);
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.6s ease;
+  z-index: 10;
+}
+
+.tab-page.active {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-btn {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background: var(--accent-color);
+  color: var(--primary-bg);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* VISION / MISSION BLOCKS */
+.vision-mission-block {
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+
+.vision-mission-block h3 {
+  color: var(--accent-color);
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+}
+
+.vision-mission-block p {
+  color: #ccc;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* BLUR EFFECT */
+.blur-bg {
+  filter: blur(8px);
+  transition: filter 0.6s ease;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .card-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .main-nav {
+    display: none;
+    flex-direction: column;
+  }
+
+  .main-nav.show {
+    display: flex;
+  }
+}
