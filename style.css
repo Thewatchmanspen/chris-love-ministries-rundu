@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f5f5f5;
+  color: #000;
+}
+
+header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 30px;
+  text-align: center;
+}
+
+nav {
+  background-color: #34495e;
+  padding: 10px;
+  text-align: center;
+}
+
+nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+main {
+  background: white;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 900px;
+}
+
+footer {
+  background-color: #2c3e50;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+.church-logo {
+  max-width: 120px;
+  display: block;
+  margin: 0 auto 15px;
+  }
