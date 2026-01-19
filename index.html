@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Christ Love Ministries Rundu Branch</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        accent: '#3498db',
+        darkbg: '#0b1020'
+      }
+    }
+  }
+}
+</script>
+
+<style>
+.slide {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 3s ease-in-out;
+  filter:brightness(0.7) contrast(1.1);
+}
+.slide.active {opacity:0.35;}
+</style>
+</head>
+
+<body class="bg-darkbg text-gray-200 overflow-x-hidden">
+
+<!-- BACKGROUND SLIDESHOW -->
+<div class="fixed inset-0 -z-10 overflow-hidden">
+  <img src="back.jpg" class="slide active">
+  <img src="back 2.jpg" class="slide">
+  <img src="back 3.jpg" class="slide">
+  <video src="back 4.mp4" class="slide" muted playsinline></video>
+</div>
+
+<!-- HEADER -->
+<header class="relative text-center py-10">
+  <img src="Title Logo.png" class="mx-auto w-36 rounded-full shadow-xl mb-4">
+  <h1 class="text-3xl font-bold text-accent">Christ Love Ministries</h1>
+  <p class="text-blue-200 text-lg">Rundu Branch</p>
+
+  <button onclick="toggleMenu()" class="absolute top-6 right-6 z-30">
+    <div class="space-y-1">
+      <span class="block w-8 h-1 bg-white"></span>
+      <span class="block w-8 h-1 bg-white"></span>
+      <span class="block w-8 h-1 bg-white"></span>
+    </div>
+  </button>
+</header>
+
+<!-- SIDEBAR -->
+<aside id="sidebar"
+class="fixed top-0 right-0 w-72 h-full bg-black/90 backdrop-blur-lg translate-x-full transition-transform duration-500 z-40 p-6">
+
+<button onclick="toggleMenu()" class="mb-8 bg-accent text-black px-4 py-2 rounded w-full font-bold">Back</button>
+
+<nav class="flex flex-col gap-6 text-lg">
+  <button onclick="openTab('about')">About</button>
+  <button onclick="openTab('call')">Call</button>
+  <button onclick="openTab('anchor')">Anchor Scripture</button>
+</nav>
+</aside>
+
+<!-- MAIN -->
+<main class="max-w-6xl mx-auto px-6 py-12">
+<section class="grid md:grid-cols-5 gap-6">
+
+<div onclick="openTab('vision')" class="card">Vision</div>
+<div onclick="openTab('mission')" class="card">Mission</div>
+<div onclick="openTab('quotes')" class="card">Quotes</div>
+<div onclick="openTab('services')" class="card">Services</div>
+
+<a href="leaders.html" class="card flex items-center justify-center">
+  Leaders
+</a>
+
+</section>
+</main>
+
+<style>
+.card{
+  background:rgba(15,20,50,0.85);
+  border-radius:1rem;
+  padding:2rem;
+  text-align:center;
+  cursor:pointer;
+  transition:.3s;
+}
+.card:hover{
+  transform:scale(1.05);
+  box-shadow:0 20px 40px rgba(0,0,0,.6);
+}
+</style>
+
+<!-- MODAL -->
+<div id="overlay" class="fixed inset-0 bg-black/80 backdrop-blur-lg hidden z-50">
+<div class="max-w-3xl mx-auto mt-20 bg-darkbg rounded-xl">
+
+<div class="flex justify-between items-center px-6 py-4 border-b border-gray-700">
+<h2 class="text-accent text-xl font-bold">Content</h2>
+<button onclick="closeTab()" class="bg-accent text-black px-4 py-2 rounded font-bold">Back</button>
+</div>
+
+<div id="tab-content" class="p-6"></div>
+</div>
+</div>
+
+<!-- FAB BIBLE -->
+<button onclick="toggleBible()"
+class="fixed bottom-6 right-6 w-16 h-16 bg-accent rounded-full text-black text-3xl font-bold shadow-xl z-30">+</button>
+
+<div id="bible" class="fixed bottom-24 right-6 w-80 bg-black/90 p-4 rounded-xl hidden z-40">
+
+<h3 class="text-accent font-bold mb-3">Bible Reader</h3>
+
+<label class="text-sm">Version</label>
+<select class="w-full mb-2 text-black">
+<option>NKJV</option>
+<option>KJV</option>
+<option>NIV</option>
+<option>NLT</option>
+</select>
+
+<label class="text-sm">Book</label>
+<input class="w-full mb-2 text-black" placeholder="Psalms">
+
+<label class="text-sm">Chapter</label>
+<input class="w-full mb-2 text-black" placeholder="11">
+
+<p class="text-sm italic mt-2">
+"If the foundations are destroyed, what can the righteous do?"
+<br><b>Psalm 11:3</b>
+</p>
+</div>
+
+<!-- JAVASCRIPT -->
+<script>
+const sidebar=document.getElementById('sidebar');
+const overlay=document.getElementById('overlay');
+const tabContent=document.getElementById('tab-content');
+const bible=document.getElementById('bible');
+
+function toggleMenu(){sidebar.classList.toggle('translate-x-full')}
+function toggleBible(){bible.classList.toggle('hidden')}
+function closeTab(){overlay.classList.add('hidden')}
+
+function openTab(tab){
+const data={
+vision:`<h2 class="text-accent text-2xl mb-4">Vision</h2>
+<p>Christlike Faith, Love, Truth, Holiness and Righteousness for all nations.</p>`,
+
+mission:`<h2 class="text-accent text-2xl mb-4">Mission</h2>
+<p>As we receive the love and mercy of God, we lift up the name of Jesus in powerful spiritual warfare and intercession wherever the Holy Spirit leads us. We plant churches, teach and demonstrate the love of God that passes all understanding, that all might accept Jesus Christ as their all in all.</p>`,
+
+quotes:`<h2 class="text-accent text-2xl mb-4">Apostle Joseph K.L Quotes</h2>
+<ul class="list-disc pl-5 space-y-2">
+<li>Sometimes we look for employment when we are employers.</li>
+<li>Just as birds do not compete for space to fly, don’t compete for prosperity — it’s enough for everyone.</li>
+</ul>`,
+
+services:`<h2 class="text-accent text-2xl mb-4">Services</h2>
+<ul class="list-disc pl-5">
+<li>Sunday – 8 AM</li>
+<li>Wednesday – 6 PM</li>
+<li>Friday – 6 PM</li>
+<li>Night Vigil – Every last Friday of each month</li>
+</ul>`,
+
+about:`<h2 class="text-accent text-2xl mb-4">About</h2>
+<p>Christ Love Ministries Rundu Branch is committed to raising Christ-centered believers.</p>`,
+
+call:`<h2 class="text-accent text-2xl mb-4">Call</h2>
+<p>Phone: +XXX XXX XXXX</p>`,
+
+anchor:`<h2 class="text-accent text-2xl mb-4">Anchor Scripture</h2>
+<p>If the foundations are destroyed, what can the righteous do?<br><b>Psalm 11:3</b></p>`
+};
+tabContent.innerHTML=data[tab];
+overlay.classList.remove('hidden');
+sidebar.classList.add('translate-x-full');
+}
+
+// SLIDESHOW
+const slides=document.querySelectorAll('.slide');
+let i=0;
+setInterval(()=>{
+slides.forEach(s=>{s.classList.remove('active'); if(s.tagName==='VIDEO')s.pause()});
+i=(i+1)%slides.length;
+slides[i].classList.add('active');
+if(slides[i].tagName==='VIDEO'){slides[i].currentTime=0;slides[i].play();}
+},12000);
+</script>
+
+</body>
+  </html>
