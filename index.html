@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Christ Love Ministries Rundu Branch</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Tailwind CDN (better than CSS + SCSS for GitHub) -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors:{
+        accent:'#3498db'
+      }
+    }
+  }
+}
+</script>
+
+</head>
+<body class="bg-black text-white overflow-hidden">
+
+<!-- BACKGROUND SLIDESHOW -->
+<div id="bg" class="fixed inset-0 -z-10"></div>
+
+<!-- OVERLAY BLUR -->
+<div id="overlay" class="fixed inset-0 bg-black/70 backdrop-blur-lg hidden z-30"></div>
+
+<!-- HEADER -->
+<header class="text-center py-10 relative z-10">
+  <img src="Title Logo.png" class="w-32 mx-auto rounded-full mb-4 shadow-xl">
+  <h1 class="text-3xl text-accent font-bold">Christ Love Ministries</h1>
+  <p class="text-blue-200">Rundu Branch</p>
+
+  <!-- HAMBURGER -->
+  <button onclick="toggleSidebar()"
+  class="absolute right-6 top-10 text-3xl">☰</button>
+</header>
+
+<!-- SIDEBAR -->
+<aside id="sidebar"
+class="fixed top-0 right-[-300px] w-72 h-full bg-[#0b1026] z-40 p-6 transition-all duration-500">
+
+<button onclick="toggleSidebar()" class="mb-6 bg-accent text-black px-4 py-2 rounded-xl">Back</button>
+
+<ul class="space-y-4 font-semibold">
+  <li onclick="openPage('about')">About</li>
+  <li onclick="openPage('call')">Call</li>
+  <li onclick="openPage('anchor')">Anchor Scripture</li>
+</ul>
+</aside>
+
+<!-- MAIN -->
+<main class="relative z-10 max-w-6xl mx-auto px-6">
+
+<div class="grid md:grid-cols-4 gap-6 mt-10">
+  <div onclick="openPage('vision')" class="card">Vision</div>
+  <div onclick="openPage('mission')" class="card">Mission</div>
+  <div onclick="openPage('services')" class="card">Services</div>
+  <div onclick="openPage('quotes')" class="card">Quotes</div>
+</div>
+
+</main>
+
+<!-- FAB -->
+<div class="fixed bottom-8 right-8 z-40">
+  <button onclick="toggleFab()"
+  class="w-16 h-16 rounded-full bg-accent text-black text-3xl shadow-xl">+</button>
+</div>
+
+<!-- FAB MENU -->
+<div id="fabMenu" class="fixed inset-0 hidden z-50 flex items-center justify-center">
+  <div class="flex gap-6">
+    <div onclick="openBible()" class="fabBalloon">📖 Bible</div>
+    <div onclick="openPage('leaders')" class="fabBalloon">👥 Leaders</div>
+    <div onclick="openPage('events')" class="fabBalloon">📅 Events</div>
+    <div onclick="openPage('quotes')" class="fabBalloon">💬 Quotes</div>
+  </div>
+</div>
+
+<!-- BIBLE PANEL -->
+<div id="biblePanel"
+class="fixed inset-0 hidden z-50 flex items-center justify-center">
+
+<div class="bg-[#0b1026] p-6 rounded-2xl w-96 max-h-[80vh] overflow-y-auto">
+<h2 class="text-center text-accent text-xl mb-4">📖 Bible</h2>
+
+<input id="book" placeholder="Book (e.g. Psalm)" class="input">
+<input id="chapter" placeholder="Chapter" class="input">
+<input id="verse" placeholder="Verse (optional)" class="input">
+
+<select id="version" class="input">
+  <option value="de4e12af7f28f599-02">NKJV</option>
+  <option value="06125adad2d5898a-01">NIV</option>
+  <option value="116cb5e7c6f09a72-01">NLT</option>
+  <option value="de4e12af7f28f599-01">KJV</option>
+</select>
+
+<button onclick="fetchBible()" class="w-full bg-accent text-black py-2 rounded-xl mt-3">Search Scripture</button>
+
+<div id="scripture" class="mt-4 text-sm leading-relaxed"></div>
+
+<button onclick="closeBible()" class="w-full mt-3 bg-gray-700 py-2 rounded-xl">Back</button>
+</div>
+</div>
+
+<!-- PAGES -->
+<div id="page" class="fixed inset-0 hidden z-50 p-6 bg-black/95 overflow-y-auto">
+<button onclick="closePage()" class="bg-accent text-black px-4 py-2 rounded-xl mb-4">Back</button>
+<div id="pageContent"></div>
+</div>
+
+<script>
+/* SLIDESHOW */
+const slides=[
+'back.jpg','back 2.jpg','back 3.jpg','back 4.mp4'
+];
+let i=0;
+const bg=document.getElementById('bg');
+
+function showSlide(){
+  bg.innerHTML='';
+  if(slides[i].endsWith('.mp4')){
+    const v=document.createElement('video');
+    v.src=slides[i];v.autoplay=true;v.loop=true;v.muted=true;
+    v.className='w-full h-full object-cover opacity-40';
+    bg.appendChild(v);
+  }else{
+    bg.innerHTML=`<img src="${slides[i]}" class="w-full h-full object-cover opacity-40">`;
+  }
+  i=(i+1)%slides.length;
+}
+showSlide();
+setInterval(showSlide,12000);
+
+/* SIDEBAR */
+function toggleSidebar(){
+  const s=document.getElementById('sidebar');
+  s.style.right = s.style.right==='0px' ? '-300px':'0px';
+}
+
+/* FAB */
+function toggleFab(){
+  document.getElementById('fabMenu').classList.toggle('hidden');
+  document.getElementById('overlay').classList.toggle('hidden');
+}
+function openBible(){
+  toggleFab();
+  document.getElementById('biblePanel').classList.remove('hidden');
+}
+function closeBible(){
+  document.getElementById('biblePanel').classList.add('hidden');
+  document.getElementById('overlay').classList.add('hidden');
+}
+
+/* LIVE BIBLE API */
+async function fetchBible(){
+  const book=document.getElementById('book').value;
+  const ch=document.getElementById('chapter').value;
+  const v=document.getElementById('verse').value;
+  const ver=document.getElementById('version').value;
+
+  const key="YOUR_API_KEY_HERE";
+
+  let ref=`${book}.${ch}${v?'.'+v:''}`;
+  const url=`https://api.scripture.api.bible/v1/bibles/${ver}/passages/${ref}?content-type=text`;
+
+  const res=await fetch(url,{
+    headers:{'api-key':key}
+  });
+  const data=await res.json();
+  document.getElementById('scripture').innerText=data.data.content;
+}
+
+/* PAGES */
+function openPage(name){
+  document.getElementById('page').classList.remove('hidden');
+  const p=document.getElementById('pageContent');
+
+  const pages={
+    vision:`<h2>Vision</h2><p>Christlike Faith, Love, Truth, Holiness And Righteousness For All Nations.<br><em>1 Timothy 1:5</em></p>`,
+    mission:`<h2>Mission</h2><p>As we receive the Love and Mercy of God, we lift up the name of Jesus in powerful spiritual warfare and intercession wherever the Holy Spirit leads us. We plant churches, teach and demonstrate the love of God that passes all understanding, that all might accept Jesus Christ as their all in all.<br><em>Ephesians 3:14-19</em></p>`,
+    services:`<h2>Services</h2><ul><li>Sunday – 8 AM</li><li>Wednesday – 6 PM</li><li>Friday – 6 PM</li><li>Night Vigil – Every Last Friday</li></ul>`,
+    quotes:`<h2>Apostle Joseph K.L Quotes</h2><p>"Sometimes we look for employment when we are employers."</p><p>"Just as birds do not compete for space to fly, don't compete for prosperity, it is enough for everyone."</p>`,
+    anchor:`<h2>Anchor Scripture</h2><p>If the foundations are destroyed, what can the righteous do?<br><em>Psalm 11:3</em></p>`
+  };
+
+  p.innerHTML=pages[name]||'';
+}
+
+function closePage(){
+  document.getElementById('page').classList.add('hidden');
+}
+</script>
+
+<style>
+.card{background:#0b1026;padding:30px;border-radius:20px;text-align:center;cursor:pointer}
+.card:hover{transform:scale(1.05)}
+.input{width:100%;padding:8px;margin-bottom:10px;border-radius:10px;background:#111;border:none}
+.fabBalloon{background:#3498db;color:black;padding:20px;border-radius:50%;cursor:pointer}
+</style>
+
+</body>
+  </html>
