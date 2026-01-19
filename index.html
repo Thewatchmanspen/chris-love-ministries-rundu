@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Christ Love Ministries Rundu Branch</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <img src="Title Logo.png" alt="Christ Love Ministries Logo" class="church-logo">
+  <h1>Christ Love Ministries</h1>
+  <p>Rundu Branch</p>
+  <div class="hamburger" onclick="toggleSidebar()"><div></div><div></div><div></div></div>
+</header>
+
+<!-- SIDEBAR MENU -->
+<div class="side-bar" id="sideBar">
+  <a href="#" onclick="openTab('about')">About</a>
+  <a href="#" onclick="openTab('call')">Call</a>
+  <button class="back-btn" onclick="closeSidebar()">Back</button>
+</div>
+
+<!-- BACKGROUND SLIDESHOW -->
+<div id="home-bg-container"></div>
+
+<!-- MAIN CONTAINER -->
+<div class="main-container" id="home-cards">
+  <div class="home-card" onclick="openTab('vision')"><h3>Vision</h3><p>View church vision</p></div>
+  <div class="home-card" onclick="openTab('mission')"><h3>Mission</h3><p>View church mission</p></div>
+  <div class="home-card" onclick="openTab('quotes')"><h3>Quotes</h3><p>Inspiring quotes</p></div>
+  <div class="home-card" onclick="openTab('events')"><h3>Events</h3><p>Church events</p></div>
+  <div class="home-card" onclick="openTab('leaders')"><h3>Leaders</h3><p>Church leadership</p></div>
+</div>
+
+<!-- TAB PAGES -->
+<div class="tab-page" id="about-page">
+  <span class="back-btn" onclick="closeTab()">Back</span>
+  <h2>About</h2>
+  <p>Christ Love Ministries Rundu Branch is dedicated to teaching the Word of God, walking in love, and transforming lives through the Gospel of Jesus Christ.</p>
+</div>
+
+<div class="tab-page" id="call-page">
+  <span class="back-btn" onclick="closeTab()">Back</span>
+  <h2>Call</h2>
+  <p>Phone: +XXX XXX XXXX</p>
+</div>
+
+<div class="tab-page" id="vision-page">
+  <span class="back-btn" onclick="closeTab()">Back</span>
+  <h2>Vision</h2>
+  <div class="vision-mission-block">
+    <p>Christlike Faith, Love, Truth, Holiness And Righteousness For All Nations.</p>
+    <p><em>1 Timothy 1:5</em></p>
+  </div>
+</div>
+
+<div class="tab-page" id="mission-page">
+  <span class="back-btn" onclick="closeTab()">Back</span>
+  <h2>Mission</h2>
+  <div class="vision-mission-block">
+    <p>As we receive the love and mercy of God, we lift up the name of Jesus in powerful spiritual warfare and intercession wherever the Holy Spirit leads us. We plant churches, teach and demonstrate the love of God that passes all understanding, that all might accept Jesus Christ as their all in all.</p>
+  </div>
+</div>
+
+<div class="tab-page" id="quotes-page">
+  <span class="back-btn" onclick="closeTab()">Back</span>
+  <h2>Quotes</h2>
+  <ul>
+    <li>"Sometimes we look for employment when we are employers." – Apostle Joseph K.L</li>
+    <li>"Just as birds do not compete for space to fly, don’t compete for prosperity; it’s enough for everyone." – Apostle Joseph K.L</li>
+  </ul>
+</div>
+
+<div class="tab-page" id="events-page">
+  <span class="back-btn" onclick="closeTab()">Back</span>
+  <h2>Events</h2>
+  <ul>
+    <li>Sunday Service – 8 AM</li>
+    <li>Midweek Service – Wednesday 6 PM</li>
+    <li>Friday Service – 6 PM</li>
+    <li>Night Vigil – Last Friday of each month</li>
+  </ul>
+</div>
+
+<div class="tab-page" id="leaders-page">
+  <span class="back-btn" onclick="closeTab()">Back</span>
+  <h2>Leaders</h2>
+  <p>Meet the leadership of Christ Love Ministries. Page content coming soon.</p>
+</div>
+
+<!-- FAB Button -->
+<div class="fab-container">
+  <button class="fab" onclick="toggleFabMenu()">+</button>
+  <div class="fab-menu" id="fabMenu">
+    <button onclick="openFabTab('leaders')">👥 Leaders</button>
+    <button onclick="openFabTab('quotes')">💬 Quotes</button>
+    <button onclick="openFabTab('events')">📅 Events</button>
+    <button onclick="toggleFabMenu()">Back</button>
+  </div>
+</div>
+
+<!-- AI Assistant Joshua -->
+<div class="ai-panel hidden" id="joshuaPanel">
+  <span class="back-btn" onclick="closeJoshua()">Back</span>
+  <h2>Joshua AI Assistant</h2>
+  <div id="aiChat" class="ai-chat"></div>
+  <input type="text" id="aiInput" placeholder="Ask Joshua..." />
+  <button onclick="sendAiMessage()">Send</button>
+</div>
+
+<script>
+// ===== TAB NAVIGATION =====
+function openTab(tab){
+  document.querySelectorAll('.tab-page').forEach(p=>p.classList.remove('active'));
+  const page=document.getElementById(tab+'-page');
+  if(page) page.classList.add('active');
+  document.getElementById('home-cards').classList.add('blur-bg');
+}
+
+function closeTab(){
+  document.querySelectorAll('.tab-page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('home-cards').classList.remove('blur-bg');
+}
+
+// ===== SIDEBAR =====
+function toggleSidebar(){document.getElementById('sideBar').classList.toggle('show');}
+function closeSidebar(){document.getElementById('sideBar').classList.remove('show');}
+
+// ===== FAB MENU =====
+function toggleFabMenu(){
+  document.getElementById('fabMenu').classList.toggle('show');
+  document.getElementById('home-cards').classList.toggle('blur-bg');
+}
+
+// FAB MENU opens tabs
+function openFabTab(tab){
+  toggleFabMenu();
+  openTab(tab);
+}
+
+// ===== SLIDESHOW =====
+const slides=[
+  {type:'image', src:'back.jpg'},
+  {type:'image', src:'back 2.jpg'},
+  {type:'image', src:'back 3.jpg'},
+  {type:'video', src:'back 4.mp4'}
+];
+let currentSlide=0;
+const bgContainer=document.getElementById('home-bg-container');
+function showSlide(s){
+  const old=bgContainer.firstChild;
+  if(old) old.style.opacity=0;
+  const el=document.createElement(s.type==='video'?'video':'img');
+  el.src=s.src;
+  if(s.type==='video'){el.autoplay=true; el.loop=true; el.muted=true;}
+  el.style.position='absolute';
+  el.style.width='100%';
+  el.style.height='100%';
+  el.style.objectFit='cover';
+  el.style.opacity=0;
+  el.style.transition='opacity 2s ease';
+  bgContainer.appendChild(el);
+  setTimeout(()=>el.style.opacity=0.3,50);
+  setTimeout(()=>{if(old) bgContainer.removeChild(old)},2000);
+}
+function nextSlide(){showSlide(slides[currentSlide]); currentSlide=(currentSlide+1)%slides.length;}
+nextSlide(); setInterval(nextSlide,12000);
+
+// ===== AI ASSISTANT JOSHUA (TEMPORARY, OFFLINE) =====
+const joshuaPanel=document.getElementById('joshuaPanel');
+const aiChat=document.getElementById('aiChat');
+function openJoshua(){joshuaPanel.classList.remove('hidden'); document.getElementById('home-cards').classList.add('blur-bg');}
+function closeJoshua(){joshuaPanel.classList.add('hidden'); document.getElementById('home-cards').classList.remove('blur-bg');}
+function sendAiMessage(){
+  const input=document.getElementById('aiInput'); if(!input.value) return;
+  const msg=document.createElement('div'); msg.textContent="You: "+input.value; aiChat.appendChild(msg);
+  const bot=document.createElement('div'); bot.textContent="Joshua: Sorry, live AI not connected. (Coming Soon)"; aiChat.appendChild(bot);
+  aiChat.scrollTop=aiChat.scrollHeight; input.value='';
+}
+</script>
+</body>
+    </html>
