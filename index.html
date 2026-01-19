@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Christ Love Ministries Rundu Branch</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Arial', sans-serif; }
+  #bg-slideshow { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; 
+  }
+  #bg-slideshow img, #bg-slideshow video { 
+    position: absolute; width: 100%; height: 100%; object-fit: cover; 
+    opacity: 0; transition: opacity 2s ease-in-out; 
+  }
+  .blur-bg { filter: blur(8px); transition: filter 0.6s ease; }
+  .home-card:hover { transform: scale(1.05); }
+</style>
+</head>
+<body class="bg-blue-900 text-white overflow-x-hidden">
+
+<!-- Background Slideshow -->
+<div id="bg-slideshow">
+  <img src="back.jpg">
+  <img src="back2.jpg">
+  <img src="back3.jpg">
+  <video src="back4.mp4" muted autoplay loop playsinline></video>
+</div>
+
+<!-- Header -->
+<header class="text-center py-12 relative z-10">
+  <img src="Title Logo.png" alt="Logo" class="w-36 rounded-full mx-auto shadow-xl mb-4">
+  <h1 class="text-4xl text-blue-400 font-bold mb-1">Christ Love Ministries</h1>
+  <p class="text-xl text-blue-200">Rundu Branch</p>
+
+  <!-- Hamburger -->
+  <div class="hamburger absolute top-10 right-10 cursor-pointer z-50" onclick="toggleSidebar()">
+    <div class="w-8 h-1 bg-white mb-1"></div>
+    <div class="w-8 h-1 bg-white mb-1"></div>
+    <div class="w-8 h-1 bg-white"></div>
+  </div>
+</header>
+
+<!-- Sidebar Menu -->
+<div id="sidebar" class="fixed inset-y-0 right-0 w-64 bg-blue-800 bg-opacity-95 flex flex-col p-8 z-40 transform transition-transform duration-500 -translate-x-full">
+  <span class="mb-4 px-4 py-2 bg-blue-500 text-white rounded cursor-pointer self-start" onclick="toggleSidebar()">Back</span>
+  <a href="#" class="py-2 font-bold text-white hover:text-blue-300" onclick="openTab('about'); toggleSidebar();">About</a>
+  <a href="#" class="py-2 font-bold text-white hover:text-blue-300" onclick="openTab('call'); toggleSidebar();">Call</a>
+  <a href="#" class="py-2 font-bold text-white hover:text-blue-300" onclick="openTab('anchor'); toggleSidebar();">Anchor Scripture</a>
+</div>
+
+<!-- Main Container -->
+<div id="main-content" class="max-w-6xl mx-auto mt-12 relative z-10">
+  <div id="home-cards" class="flex flex-wrap justify-center gap-6 mb-12">
+    <div class="w-52 h-32 bg-blue-800 bg-opacity-80 rounded-lg shadow-lg p-4 flex flex-col justify-center items-center cursor-pointer transition-transform duration-300 hover:scale-105" onclick="openTab('vision')">
+      <h3 class="text-blue-300 font-bold">Vision</h3><p class="text-blue-200">View Vision</p>
+    </div>
+    <div class="w-52 h-32 bg-blue-800 bg-opacity-80 rounded-lg shadow-lg p-4 flex flex-col justify-center items-center cursor-pointer transition-transform duration-300 hover:scale-105" onclick="openTab('mission')">
+      <h3 class="text-blue-300 font-bold">Mission</h3><p class="text-blue-200">View Mission</p>
+    </div>
+    <div class="w-52 h-32 bg-blue-800 bg-opacity-80 rounded-lg shadow-lg p-4 flex flex-col justify-center items-center cursor-pointer transition-transform duration-300 hover:scale-105" onclick="openTab('services')">
+      <h3 class="text-blue-300 font-bold">Services</h3><p class="text-blue-200">View Services</p>
+    </div>
+    <div class="w-52 h-32 bg-blue-800 bg-opacity-80 rounded-lg shadow-lg p-4 flex flex-col justify-center items-center cursor-pointer transition-transform duration-300 hover:scale-105" onclick="openTab('quotes')">
+      <h3 class="text-blue-300 font-bold">Quotes</h3><p class="text-blue-200">View Quotes</p>
+    </div>
+    <div class="w-52 h-32 bg-blue-800 bg-opacity-80 rounded-lg shadow-lg p-4 flex flex-col justify-center items-center cursor-pointer transition-transform duration-300 hover:scale-105" onclick="openTab('leaders')">
+      <h3 class="text-blue-300 font-bold">Leaders</h3><p class="text-blue-200">View Leaders</p>
+    </div>
+  </div>
+</div>
+
+<!-- Tabs (all share the same base classes) -->
+<div id="about" class="absolute top-0 left-0 w-full min-h-screen bg-blue-900 bg-opacity-90 p-8 opacity-0 invisible transition-all duration-700 flex flex-col">
+  <span class="mb-4 px-4 py-2 bg-blue-500 text-white rounded cursor-pointer self-start" onclick="closeTab()">Back</span>
+  <h2 class="text-3xl mb-4">About</h2>
+  <p>Christ Love Ministries Rundu Branch is dedicated to teaching the Word of God, walking in love, and transforming lives through the Gospel of Jesus Christ.</p>
+</div>
+<div id="call" class="absolute top-0 left-0 w-full min-h-screen bg-blue-900 bg-opacity-90 p-8 opacity-0 invisible transition-all duration-700 flex flex-col">
+  <span class="mb-4 px-4 py-2 bg-blue-500 text-white rounded cursor-pointer self-start" onclick="closeTab()">Back</span>
+  <h2 class="text-3xl mb-4">Call</h2>
+  <p>Phone: +XXX XXX XXXX</p>
+</div>
+<div id="anchor" class="absolute top-0 left-0 w-full min-h-screen bg-blue-900 bg-opacity-90 p-8 opacity-0 invisible transition-all duration-700 flex flex-col">
+  <span class="mb-4 px-4 py-2 bg-blue-500 text-white rounded cursor-pointer self-start" onclick="closeTab()">Back</span>
+  <h2 class="text-3xl mb-4">Anchor Scripture</h2>
+  <p class="italic">"If the foundations are destroyed, what can the righteous do?" – Psalm 11:3 NKJV</p>
+</div>
+<div id="vision" class="absolute top-0 left-0 w-full min-h-screen bg-blue-900 bg-opacity-90 p-8 opacity-0 invisible transition-all duration-700 flex flex-col">
+  <span class="mb-4 px-4 py-2 bg-blue-500 text-white rounded cursor-pointer self-start" onclick="closeTab()">Back</span>
+  <h2 class="text-3xl mb-4">Vision</h2>
+  <p>Christlike Faith, Love, Truth, Holiness And Righteousness For All Nations. – 1 Timothy 1:5</p>
+</div>
+<div id="mission" class="absolute top-0 left-0 w-full min-h-screen bg-blue-900 bg-opacity-90 p-8 opacity-0 invisible transition-all duration-700 flex flex-col">
+  <span class="mb-4 px-4 py-2 bg-blue-500 text-white rounded cursor-pointer self-start" onclick="closeTab()">Back</span>
+  <h2 class="text-3xl mb-4">Mission</h2>
+  <p>As we receive the love and mercy of God, we lift up the name of Jesus in powerful spiritual warfare and intercession wherever the Holy Spirit leads us. We plant churches, teach and demonstrate the love of God that passes all understanding, that all might accept Jesus Christ as their all in all. – Ephesians 3:14-19</p>
+</div>
+<div id="services" class="absolute top-0 left-0 w-full min-h-screen bg-blue-900 bg-opacity-90 p-8 opacity-0 invisible transition-all duration-700 flex flex-col">
+  <span class="mb-4 px-4 py-2 bg-blue-500 text-white rounded cursor-pointer self-start" onclick="closeTab()">Back</span>
+  <h2 class="text-3xl mb-4">Services</h2>
+  <ul class="list-disc ml-6">
+    <li>Sunday Worship: 8 AM</li>
+    <li>Wednesday Bible Study: 6 PM</li>
+    <li>Friday Prayer: 6 PM</li>
+    <li>Night Vigil: Every last Friday of each month</li>
+  </ul>
+</div>
+<div id="quotes" class="absolute top-0 left-0 w-full min-h-screen bg-blue-900 bg-opacity-90 p-8 opacity-0 invisible transition-all duration-700 flex flex-col">
+  <span class="mb-4 px-4 py-2 bg-blue-500 text-white rounded cursor-pointer self-start" onclick="closeTab()">Back</span>
+  <h2 class="text-3xl mb-4">Quotes</h2>
+  <ul class="list-disc ml-6">
+    <li>"Sometimes we look for employment when we are employers." – Apostle Joseph K.L</li>
+    <li>"Just as birds do not compete for space to fly, don't compete for prosperity, it’s enough for everyone." – Apostle Joseph K.L</li>
+  </ul>
+</div>
+<div id="leaders" class="absolute top-0 left-0 w-full min-h-screen bg-blue-900 bg-opacity-90 p-8 opacity-0 invisible transition-all duration-700 flex flex-col">
+  <span class="mb-4 px-4 py-2 bg-blue-500 text-white rounded cursor-pointer self-start" onclick="closeTab()">Back</span>
+  <h2 class="text-3xl mb-4">Leaders</h2>
+  <p>Coming soon...</p>
+</div>
+
+<!-- FAB -->
+<div id="fab" class="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-xl cursor-pointer z-50 transition-transform duration-300" onclick="toggleFabMenu()">
+  <span class="text-5xl font-bold">+</span>
+</div>
+<div id="fab-menu" class="absolute bottom-8 right-8 z-40"></div>
+
+<!-- Joshua AI Modal -->
+<div id="joshua-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+  <div class="w-96 max-w-full bg-blue-900 p-6 rounded-xl shadow-2xl flex flex-col">
+    <span class="mb-4 px-4 py-2 bg-blue-500 text-white rounded cursor-pointer self-start" onclick="closeJoshua()">Close</span>
+    <h2 class="text-2xl mb-2">Joshua AI Assistant</h2>
+    <div id="joshua-output" class="flex-1 overflow-y-auto mb-4 text-blue-100 max-h-[300px]"></div>
+    <input id="joshua-input" type="text" placeholder="Ask Joshua..." class="p-2 rounded w-full text-black" />
+    <button onclick="askJoshua()" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Send</button>
+  </div>
+</div>
+
+<script>
+// Background slideshow
+const bgContainer = document.getElementById('bg-slideshow');
+const mediaElements = bgContainer.querySelectorAll('img, video');
+let currentSlide = 0;
+let previousSlide = -1;
+
+// Initial state
+mediaElements.forEach(el => el.style.opacity = '0');
+mediaElements[0].style.opacity = '0.35';
+
+setInterval(() => {
+  previousSlide = currentSlide;
+  currentSlide = (currentSlide + 1) % mediaElements.length;
+
+  if (previousSlide !== -1) {
+    mediaElements[previousSlide].style.opacity = '0';
+  }
+  mediaElements[currentSlide].style.opacity = '0.35';
+}, 12000);
+
+// Tabs
+function openTab(id) {
+  document.getElementById(id).classList.add('opacity-100', 'visible');
+  document.getElementById(id).classList.remove('opacity-0', 'invisible');
+  document.getElementById('main-content').classList.add('blur-bg');
+}
+function closeTab() {
+  document.querySelectorAll('.tab-page, #about, #call, #anchor, #vision, #mission, #services, #quotes, #leaders').forEach(t => {
+    t.classList.add('opacity-0', 'invisible');
+    t.classList.remove('opacity-100', 'visible');
+  });
+  document.getElementById('main-content').classList.remove('blur-bg');
+}
+
+// Sidebar
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('-translate-x-full');
+}
+
+// FAB radial menu
+let fabOpen = false;
+const fabButton = document.getElementById('fab');
+const fabMenu = document.getElementById('fab-menu');
+
+function toggleFabMenu() {
+  fabOpen = !fabOpen;
+  fabButton.innerHTML = fabOpen ? '<span class="text-5xl font-bold">&times;</span>' : '<span class="text-5xl font-bold">+</span>';
+  fabButton.classList.toggle('rotate-45', fabOpen);
+
+  if (fabOpen) {
+    const items = [
+      { name: 'Joshua', action: openJoshua },
+      { name: 'Leaders', action: () => { openTab('leaders'); toggleFabMenu(); } },
+      { name: 'Events', action: () => { alert('Events coming soon'); toggleFabMenu(); } },
+      { name: 'Quotes', action: () => { openTab('quotes'); toggleFabMenu(); } }
+    ];
+    fabMenu.innerHTML = '';
+    items.forEach((it, i) => {
+      const el = document.createElement('div');
+      el.className = 'absolute w-14 h-14 rounded-full bg-blue-400 text-white flex items-center justify-center shadow-lg cursor-pointer transition-all duration-300';
+      el.textContent = it.name;
+      el.classList.add('text-lg', 'font-medium');
+
+      const angle = (i / items.length) * Math.PI * 2 - Math.PI / 2; // start from top
+      const radius = 100;
+      el.style.bottom = `${8 + Math.sin(angle) * radius}px`;
+      el.style.right = `${8 + Math.cos(angle) * radius}px`;
+
+      // Animate in
+      el.style.opacity = '0';
+      el.style.transform = 'scale(0)';
+      el.onclick = () => { it.action(); toggleFabMenu(); };
+      fabMenu.appendChild(el);
+
+      setTimeout(() => {
+        el.style.opacity = '1';
+        el.style.transform = 'scale(1)';
+      }, 50 + i * 100);
+    });
+  } else {
+    fabMenu.innerHTML = '';
+  }
+}
+
+// Joshua AI Modal
+const joshuaModal = document.getElementById('joshua-modal');
+const joshuaOutput = document.getElementById('joshua-output');
+
+function openJoshua() {
+  joshuaModal.classList.remove('hidden');
+  document.getElementById('main-content').classList.add('blur-bg');
+}
+function closeJoshua() {
+  joshuaModal.classList.add('hidden');
+  document.getElementById('main-content').classList.remove('blur-bg');
+  joshuaOutput.innerHTML = '';
+}
+
+async function askJoshua() {
+  const input = document.getElementById('joshua-input');
+  const message = input.value.trim();
+  if (!message) return;
+
+  joshuaOutput.innerHTML += `<p class="mb-1">You: ${message}</p>`;
+  input.value = '';
+
+  try {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer YOUR_API_KEY'  // ← REPLACE WITH YOUR REAL KEY
+      },
+      body: JSON.stringify({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          { role: 'system', content: 'You are Joshua, a friendly AI assistant for Christ Love Ministries Rundu Branch. Answer helpfully and in a biblical, encouraging tone.' },
+          { role: 'user', content: message }
+        ],
+        temperature: 0.7
+      })
+    });
+
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    const reply = data.choices[0].message.content;
+    joshuaOutput.innerHTML += `<p class="mb-1">Joshua: ${reply}</p>`;
+  } catch (err) {
+    joshuaOutput.innerHTML += `<p class="mb-1 text-red-400">Joshua: Could not connect to API. Check your key or network.</p>`;
+  }
+  joshuaOutput.scrollTop = joshuaOutput.scrollHeight;
+}
+</script>
+</body>
+  </html>
