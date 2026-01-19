@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Christ Love Ministries Rundu Branch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-200 relative overflow-x-hidden">
+
+<!-- Background slideshow -->
+<div id="home-bg-container" class="fixed inset-0 z-0 overflow-hidden"></div>
+
+<!-- HEADER -->
+<header class="text-center p-10 relative z-10">
+  <img src="Title Logo.png" alt="Logo" class="w-36 mx-auto rounded-full shadow-lg mb-4">
+  <h1 class="text-4xl text-blue-500 mb-2">Christ Love Ministries</h1>
+  <p class="text-gray-300 text-lg">Rundu Branch</p>
+  <!-- Hamburger -->
+  <div class="absolute top-10 right-5 flex flex-col space-y-1 cursor-pointer z-20" onclick="toggleSidebar()">
+    <div class="w-8 h-0.5 bg-gray-200"></div>
+    <div class="w-8 h-0.5 bg-gray-200"></div>
+    <div class="w-8 h-0.5 bg-gray-200"></div>
+  </div>
+</header>
+
+<!-- Sidebar -->
+<div id="side-bar" class="fixed top-0 right-[-250px] w-64 h-full bg-gray-800 z-20 p-12 flex flex-col transition-all duration-500">
+  <a class="py-2 font-bold hover:text-blue-500 cursor-pointer tab-link" data-tab="about">About</a>
+  <a class="py-2 font-bold hover:text-blue-500 cursor-pointer tab-link" data-tab="call">Call</a>
+</div>
+
+<!-- FAB Bible -->
+<div id="fab" class="fixed bottom-5 right-5 w-16 h-16 bg-blue-500 rounded-full flex justify-center items-center text-3xl cursor-pointer z-20 shadow-lg">+</div>
+<div id="bible-panel" class="hidden fixed bottom-24 right-5 w-80 max-h-96 bg-gray-800 p-4 rounded-lg overflow-y-auto z-20">
+  <label class="block mb-2">Book:</label>
+  <select id="book" class="w-full mb-2 p-1 rounded bg-gray-700 text-gray-200">
+    <option>John</option>
+    <option>Proverbs</option>
+    <option>Philippians</option>
+    <option>Psalm</option>
+  </select>
+  <label class="block mb-2">Chapter:</label>
+  <input type="number" id="chapter" value="1" min="1" class="w-full mb-2 p-1 rounded bg-gray-700 text-gray-200">
+  <label class="block mb-2">Version:</label>
+  <select id="version" class="w-full mb-2 p-1 rounded bg-gray-700 text-gray-200">
+    <option>KJV</option>
+    <option>NIV</option>
+    <option>ESV</option>
+  </select>
+  <button onclick="showBible()" class="w-full bg-blue-500 text-gray-900 font-bold py-2 rounded mb-2">Read</button>
+  <div id="bible-output" class="text-gray-300"></div>
+</div>
+
+<!-- Main Content -->
+<main class="relative z-10 max-w-6xl mx-auto px-4">
+  <div id="home-cards" class="flex flex-wrap justify-center gap-5 mb-10">
+    <div class="home-card bg-gray-800 p-5 rounded-lg shadow-md cursor-pointer text-center" data-tab="vision">
+      <h3 class="text-blue-500 text-xl mb-2">Vision</h3>
+      <p>View church vision</p>
+    </div>
+    <div class="home-card bg-gray-800 p-5 rounded-lg shadow-md cursor-pointer text-center" data-tab="mission">
+      <h3 class="text-blue-500 text-xl mb-2">Mission</h3>
+      <p>View church mission</p>
+    </div>
+    <div class="home-card bg-gray-800 p-5 rounded-lg shadow-md cursor-pointer text-center" data-tab="quotes">
+      <h3 class="text-blue-500 text-xl mb-2">Quotes</h3>
+      <p>Inspiring Bible quotes</p>
+    </div>
+    <div class="home-card bg-gray-800 p-5 rounded-lg shadow-md cursor-pointer text-center" data-tab="services">
+      <h3 class="text-blue-500 text-xl mb-2">Services</h3>
+      <p>Church service details</p>
+    </div>
+    <div class="home-card bg-gray-800 p-5 rounded-lg shadow-md cursor-pointer text-center" data-tab="anchor">
+      <h3 class="text-blue-500 text-xl mb-2">Anchor Scripture</h3>
+      <p>View scripture</p>
+    </div>
+  </div>
+
+  <!-- Tab Pages -->
+  <div class="tab-page hidden" id="about-page">
+    <span class="back-btn bg-blue-500 text-gray-900 p-2 rounded inline-block mb-4 cursor-pointer" onclick="closePage()">Back</span>
+    <h2 class="text-center text-blue-500 text-2xl mb-4">About</h2>
+    <p>Christ Love Ministries Rundu Branch is dedicated to teaching the Word of God, walking in love, and transforming lives through the Gospel of Jesus Christ.</p>
+  </div>
+
+  <div class="tab-page hidden" id="call-page">
+    <span class="back-btn bg-blue-500 text-gray-900 p-2 rounded inline-block mb-4 cursor-pointer" onclick="closePage()">Back</span>
+    <h2 class="text-center text-blue-500 text-2xl mb-4">Call</h2>
+    <p>Phone: +XXX XXX XXXX</p>
+  </div>
+
+  <div class="tab-page hidden" id="vision-page">
+    <span class="back-btn bg-blue-500 text-gray-900 p-2 rounded inline-block mb-4 cursor-pointer" onclick="closePage()">Back</span>
+    <h2 class="text-center text-blue-500 text-2xl mb-4">Vision</h2>
+    <p>Christlike Faith, Love, Truth, Holiness And Righteousness For All Nations.</p>
+    <p class="italic">1 Timothy 1:5</p>
+  </div>
+
+  <div class="tab-page hidden" id="mission-page">
+    <span class="back-btn bg-blue-500 text-gray-900 p-2 rounded inline-block mb-4 cursor-pointer" onclick="closePage()">Back</span>
+    <h2 class="text-center text-blue-500 text-2xl mb-4">Mission</h2>
+    <p>As we receive the Love and Mercy of God, we lift up the name of Jesus in powerful spiritual warfare and intercession wherever the Holy Spirit leads us. We plant churches, teach and demonstrate the love of Jesus Christ that passes all understanding so that all might accept Jesus Christ as their all in all.</p>
+    <p class="italic">Ephesians 3:14-19</p>
+  </div>
+
+  <div class="tab-page hidden" id="quotes-page">
+    <span class="back-btn bg-blue-500 text-gray-900 p-2 rounded inline-block mb-4 cursor-pointer" onclick="closePage()">Back</span>
+    <h2 class="text-center text-blue-500 text-2xl mb-4">Quotes</h2>
+    <ul class="list-disc pl-6">
+      <li>"For God so loved the world..." - John 3:16</li>
+      <li>"Trust in the Lord with all your heart..." - Proverbs 3:5</li>
+      <li>"I can do all things through Christ..." - Philippians 4:13</li>
+    </ul>
+  </div>
+
+  <div class="tab-page hidden" id="services-page">
+    <span class="back-btn bg-blue-500 text-gray-900 p-2 rounded inline-block mb-4 cursor-pointer" onclick="closePage()">Back</span>
+    <h2 class="text-center text-blue-500 text-2xl mb-4">Services</h2>
+    <ul class="list-disc pl-6">
+      <li>Sunday Worship: 8 AM</li>
+      <li>Bible Study: Wednesday & Friday 6 PM</li>
+      <li>Night Vigil: Last Friday of the month</li>
+    </ul>
+  </div>
+
+  <div class="tab-page hidden" id="anchor-page">
+    <span class="back-btn bg-blue-500 text-gray-900 p-2 rounded inline-block mb-4 cursor-pointer" onclick="closePage()">Back</span>
+    <h2 class="text-center text-blue-500 text-2xl mb-4">Anchor Scripture</h2>
+    <p>"If the foundations are destroyed, what can the righteous do?"</p>
+    <p class="italic">Psalm 11:3</p>
+  </div>
+</main>
+
+<script>
+// TAB NAVIGATION
+const links = document.querySelectorAll('.tab-link');
+const homeCards = document.querySelectorAll('.home-card');
+const pages = document.querySelectorAll('.tab-page');
+const sideBar = document.getElementById('side-bar');
+
+function openTab(tab){
+  pages.forEach(p=>p.classList.add('hidden'));
+  const target = document.getElementById(tab+'-page');
+  if(target) target.classList.remove('hidden');
+  document.getElementById('home-cards').classList.add('blur-sm');
+  sideBar.classList.remove('show');
+}
+function closePage(){
+  pages.forEach(p=>p.classList.add('hidden'));
+  document.getElementById('home-cards').classList.remove('blur-sm');
+}
+links.forEach(l=>l.addEventListener('click', ()=> openTab(l.dataset.tab)));
+homeCards.forEach(c=>c.addEventListener('click', ()=> openTab(c.dataset.tab)));
+function toggleSidebar(){ sideBar.classList.toggle('show'); }
+
+// SLIDESHOW
+const slides=[
+  {type:'image',src:'back.jpg'},
+  {type:'image',src:'back 2.jpg'},
+  {type:'image',src:'back 3.jpg'},
+  {type:'video',src:'back.mp4'}
+];
+let currentSlide=0;
+const bgContainer=document.getElementById('home-bg-container');
+
+function showSlide(slide){
+  const old=bgContainer.firstChild;
+  if(old){ old.style.transition='opacity 2s ease'; old.style.opacity=0; setTimeout(()=>bgContainer.removeChild(old),2000);}
+  const el=document.createElement(slide.type==='video'?'video':'img');
+  el.src=slide.src;
+  if(slide.type==='video'){el.autoplay=true;el.muted=true;el.loop=true;}
+  el.style.position='absolute';
+  el.style.width='100%';
+  el.style.height='100%';
+  el.style.objectFit='cover';
+  el.style.opacity=0;
+  el.style.transition='opacity 2s ease';
+  bgContainer.appendChild(el);
+  setTimeout(()=>el.style.opacity=0.3,50);
+}
+function nextSlide(){ showSlide(slides[currentSlide]); currentSlide=(currentSlide+1)%slides.length; }
+nextSlide();
+setInterval(nextSlide,12000);
+
+// FAB BIBLE
+const fab=document.getElementById('fab');
+const biblePanel=document.getElementById('bible-panel');
+fab.addEventListener('click',()=>biblePanel.classList.toggle('hidden'));
+function showBible(){
+  const book=document.getElementById('book').value;
+  const chapter=document.getElementById('chapter').value;
+  const version=document.getElementById('version').value;
+  document.getElementById('bible-output').innerHTML=`<strong>${book} ${chapter} (${version}):</strong> [Bible text here]`;
+}
+</script>
+</body>
+  </html>
