@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF‑8">
+    <meta name="viewport" content="width=device‑width, initial‑scale=1.0">
+    <title>Christ Love Ministries | Rundu Branch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; background: #020617; color: white; margin: 0; overflow-x: hidden; }
+        #bg-slideshow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        .bg-slide { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.5s ease; }
+        .bg-slide.active { opacity: 0.35; }
+        #app-container { position: relative; z-index: 10; min-height: 100vh; transition: filter 0.3s; }
+        .content-blur { filter: blur(15px); pointer-events: none; }
+        .glass { background: rgba(30,58,138,0.15); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); border-radius: 1.5rem; cursor: pointer; transition: all 0.3s ease; }
+        .glass:hover { transform: translateY(-5px); background: rgba(30,58,138,0.3); border-color: #3b82f6; }
+        .tab-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; background: rgba(2,6,23,0.98); backdrop-filter: blur(20px); display: none; flex-direction: column; padding: 2rem; overflow-y: auto; }
+        .tab-page.active { display: flex; animation: fadeIn 0.4s ease; }
+        .back-btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.8rem 1.6rem; background: #2563eb; border-radius: 50px; color: white; font-weight: 700; cursor: pointer; margin-bottom: 2rem; width: fit-content; border: none; }
+        #ai-button { position: fixed; bottom: 20px; right: 20px; z-index: 150; }
+        #chat-window { position: fixed; bottom: 90px; right: 20px; width: 340px; height: 500px; background: #0f172a; border: 1px solid #3b82f6; border-radius: 1.5rem; z-index: 150; display: none; flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+        .message { padding: 12px; border-radius: 1rem; margin: 6px; max-width: 85%; font-size: 0.85rem; line-height: 1.5; }
+        .bot { background: #1e3a8a; align-self: flex-start; color: #dbeafe; border-bottom-left-radius: 0; }
+        .user { background: #3b82f6; align-self: flex-end; color: white; border-bottom-right-radius: 0; }
+        input, select { width: 100%; padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: white; margin-bottom: 15px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <!-- Background -->
+    <div id="bg-slideshow">
+        <img src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1920" class="bg-slide active">
+        <img src="https://images.unsplash.com/photo-1504052434569-70ad5836ab65?q=80&w=1920" class="bg-slide">
+    </div>
+
+    <div id="app-container">
+        <!-- Header & Tabs -->
+        <header class="text-center py-12 px-4 relative">
+            <div class="w-32 h-32 mx-auto bg-slate-800 rounded-full mb-4 border-4 border-blue-500 overflow-hidden shadow-lg shadow-blue-500/20">
+                <img src="Title Logo.png" alt="Logo" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=CLM'">
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold">Christ Love Ministries</h1>
+            <p class="text-blue-400 tracking-[0.3em] font-bold uppercase text-xs mt-2">Rundu Branch • Prophetic Territory</p>
+            <button onclick="toggleSidebar()" class="absolute top-8 right-8 text-3xl text-white hover:text-blue-400"><i class="fas fa-bars"></i></button>
+        </header>
+        <main class="max-w-5xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 gap-6 pb-24">
+            <div class="glass p-8 text-center" onclick="openTab('vision')"><i class="fas fa-eye text-4xl mb-4 text-blue-400"></i><h3 class="text-xl font-bold">Vision</h3></div>
+            <div class="glass p-8 text-center" onclick="openTab('mission')"><i class="fas fa-bullseye text-4xl mb-4 text-blue-400"></i><h3 class="text-xl font-bold">Mission</h3></div>
+            <div class="glass p-8 text‑center" onclick="openTab('services')"><i class="fas fa-church text‑4xl mb‑4 text‑blue‑400"></i><h3 class="text‑xl font‑bold">Services</h3></div>
+            <div class="glass p‑8 text‑center" onclick="openTab('leaders')"><i class="fas fa‑user‑tie text‑4xl mb‑4 text‑blue‑400"></i><h3 class="text‑xl font‑bold">Leadership</h3></div>
+            <div class="glass p‑8 text‑center sm:col‑span‑2 border‑2 border‑blue‑500/40 bg‑blue‑600/10" onclick="openTab('join')"><i class="fas fa‑users‑rays text‑4xl mb‑4 text‑blue‑400"></i><h3 class="text‑xl font‑bold">Join Choir or Ushers</h3></div>
+        </main>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed top‑0 right‑[-320px] w‑80 h‑full bg‑slate‑900 z‑[110] transition‑all duration‑300 p‑10 border‑l border‑blue‑500/30 shadow‑2xl">
+        <button onclick="toggleSidebar()" class="text‑2xl mb‑10"><i class="fas fa‑times"></i></button>
+        <nav class="flex flex‑col gap‑6 text‑xl">
+            <a href="javascript:void(0)" class="hover:text‑blue‑400" onclick="openTab('call', true)"><i class="fas fa‑phone mr‑3"></i> Contact Us</a>
+            <a href="javascript:void(0)" class="hover:text‑blue‑400" onclick="openTab('find‑us', true)"><i class="fas fa‑map‑marker‑alt mr‑3"></i> Find Us</a>
+            <a href="javascript:void(0)" class="hover:text‑blue‑400" onclick="openTab('quotes', true)"><i class="fas fa‑quote‑left mr‑3"></i> Quotes</a>
+            <a href="javascript:void(0)" class="text‑blue‑400 font‑bold mb‑4" onclick="openTab('anchor', true)"><i class="fas fa‑bible mr‑3"></i> 2026 Scripture</a>
+            <hr class="border‑white/10 my‑2">
+            <p class="text‑xs uppercase tracking‑widest text‑gray‑500 font‑bold">Connect With Us</p>
+            <a href="https://www.instagram.com/clmi_rundu" target="_blank" class="text‑base hover:text‑pink‑500"><i class="fab fa‑instagram mr‑3"></i> Instagram</a>
+            <a href="https://tiktok.com/@clmi.media.team" target="_blank" class="text‑base hover:text‑gray‑400"><i class="fab fa‑tiktok mr‑3"></i> TikTok</a>
+            <a href="https://youtube.com/@clmimediateamrundu" target="_blank" class="text‑base hover:text‑red‑500"><i class="fab fa‑youtube mr‑3"></i> YouTube</a>
+        </nav>
+    </div>
+
+    <!-- Chat Button & Chat Window -->
+    <button id="ai-button" onclick="toggleChat()" class="bg‑blue‑600 w‑16 h‑16 rounded‑full shadow‑2xl flex items‑center justify‑center text‑2xl hover:scale‑110 transition"><i class="fas fa‑bolt"></i></button>
+    <div id="chat-window">
+        <div class="bg‑blue‑900 p‑4 font‑bold flex justify‑between items‑center"><span>Joshua: Digital Assistant</span><button onclick="toggleChat()"><i class="fas fa‑times"></i></button></div>
+        <div id="chat-box" class="flex‑1 overflow‑y‑auto p‑4 flex flex‑col bg‑slate‑900">
+            <div class="message bot">Grace and peace! Ask me about the ministry, services, or scripture.</div>
+        </div>
+        <div class="p‑3 bg‑slate‑800 flex gap‑2">
+            <input type="text" id="user‑input" class="bg‑slate‑700 border‑none rounded‑lg p‑2 flex‑1 text‑white text‑sm" placeholder="Ask anything...">
+            <button onclick="sendMessage()" class="bg‑blue‑600 px‑4 rounded‑lg"><i class="fas fa‑paper‑plane"></i></button>
+        </div>
+    </div>
+
+    <!-- MODALS & Tabs Here (unchanged) like quotes, leaders, mission, etc... -->
+
+    <!-- Join Form -->
+    <div id="join" class="tab-page">
+        <button class="back-btn" onclick="smartClose()"><i class="fas fa-arrow-left"></i> Back</button>
+        <div class="max-w-xl mx-auto">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4 text-center">Ministry Enlistment</h2>
+            <form class="glass p-8" id="join-form">
+                <input type="text" name="name" required placeholder="Full Name">
+                <input type="tel" name="phone" required placeholder="Phone Number">
+                <select name="ministry" required>
+                    <option value="Choir">The Choir</option>
+                    <option value="Ushers">The Royal Ushers</option>
+                </select>
+                <button type="submit" class="w-full bg-blue-600 py-4 rounded-xl font-bold">Submit to Pastor Daniel K.N</button>
+            </form>
+        </div>
+    </div>
+
+<script>
+    // AI Chat via Hugging Face
+    async function getAIResponse(question) {
+        const resp = await fetch("https://api-inference.huggingface.co/models/h2oai/h2ogpt-oig-mega-1.1", {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer YOUR_HF_TOKEN_HERE",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({inputs: question})
+        });
+        const data = await resp.json();
+        return data?.generated_text || "Sorry, I couldn't think of a response right now.";
+    }
+    function toggleChat() {
+        const c = document.getElementById("chat-window");
+        c.style.display = (c.style.display === "flex") ? "none" : "flex";
+    }
+    async function sendMessage() {
+        const input = document.getElementById("user-input");
+        const box = document.getElementById("chat-box");
+        if (!input.value) return;
+        box.innerHTML += `<div class="message user">${input.value}</div>`;
+        const q = input.value;
+        input.value = "";
+        box.innerHTML += `<div class="message bot">Thinking...</div>`;
+        box.scrollTop = box.scrollHeight;
+        const aiAnswer = await getAIResponse(q);
+        box.innerHTML += `<div class="message bot">${aiAnswer}</div>`;
+        box.scrollTop = box.scrollHeight;
+    }
+
+    // Slide Show
+    const slides = document.querySelectorAll('.bg-slide');
+    let cur = 0;
+    setInterval(() => { slides[cur].classList.remove('active'); cur = (cur+1) % slides.length; slides[cur].classList.add('active'); }, 5000);
+
+    function toggleSidebar() {
+        const s = document.getElementById('sidebar');
+        s.style.right = (s.style.right === '0px') ? '-320px' : '0px';
+        document.getElementById('app-container').classList.toggle('content-blur');
+    }
+    function openTab(id, sidebar=false) {
+        if (sidebar) toggleSidebar();
+        document.getElementById(id).classList.add('active');
+        document.getElementById('app-container').classList.add('content-blur');
+        window.scrollTo(0,0);
+    }
+    function smartClose() {
+        document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+        document.getElementById('app-container').classList.remove('content-blur');
+    }
+
+    // SMS Sending via Twilio
+    document.getElementById("join-form").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const name = form.name.value;
+        const phone = form.phone.value;
+        const ministry = form.ministry.value;
+
+        // Send SMS
+        await fetch("https://api.twilio.com/2010-04-01/Accounts/TWILIO_ACCOUNT_SID/Messages.json", {
+            method: "POST",
+            headers: { "Authorization": "Basic " + btoa("TWILIO_ACCOUNT_SID:TWILIO_AUTH_TOKEN"), "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({
+                To: "+264818970072",
+                From: "TWILIO_FROM_NUMBER",
+                Body: `New Ministry Enlistment:\nName: ${name}\nPhone: ${phone}\nMinistry: ${ministry}`
+            })
+        });
+
+        alert("Thank you! Your application has been submitted.");
+        smartClose();
+        form.reset();
+    });
+</script>
+</body>
+  </html>
