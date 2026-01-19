@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christ Love Ministries | Rundu Branch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; background: #020617; color: white; margin: 0; overflow: hidden; }
+
+        /* Background Layer */
+        #bg-slideshow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden; }
+        .bg-slide { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.5s ease; }
+        .bg-slide.active { opacity: 0.3; }
+
+        /* Main UI */
+        #app-container { position: relative; z-index: 10; height: 100vh; width: 100%; overflow-y: auto; transition: filter 0.3s ease; }
+        .content-blur { filter: blur(15px); pointer-events: none; }
+
+        /* Glass Cards */
+        .glass { background: rgba(30, 58, 138, 0.3); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1.5rem; cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .glass:hover { transform: translateY(-8px); background: rgba(30, 58, 138, 0.6); border-color: #3b82f6; box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.5); }
+
+        /* Modern Tab System */
+        .tab-page { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            z-index: 100; background: rgba(2, 6, 23, 0.98); backdrop-filter: blur(25px);
+            display: none; flex-direction: column; padding: 2rem; overflow-y: auto;
+        }
+        .tab-page.active { display: flex; animation: slideUp 0.4s ease-out; }
+
+        .back-btn { 
+            display: inline-flex; align-items: center; gap: 0.75rem; 
+            padding: 0.8rem 1.6rem; background: #2563eb; border-radius: 50px;
+            color: white; font-weight: 700; cursor: pointer; margin-bottom: 2rem;
+            width: fit-content; transition: 0.3s; border: none; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+        .back-btn:hover { background: #1d4ed8; transform: translateX(-5px); }
+
+        /* Joshua AI Styling */
+        .chat-bubble { max-width: 85%; padding: 15px; border-radius: 20px; margin-bottom: 12px; font-size: 0.95rem; line-height: 1.6; }
+        .user-msg { background: #3b82f6; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .bot-msg { background: #1e3a8a; align-self: flex-start; border: 1px solid #3b82f6; border-bottom-left-radius: 4px; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div id="bg-slideshow">
+        <img src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1920" class="bg-slide active">
+        <img src="https://images.unsplash.com/photo-1504052434569-70ad5836ab65?q=80&w=1920" class="bg-slide">
+    </div>
+
+    <div id="app-container">
+        <header class="text-center py-16 px-4">
+            <div class="w-36 h-36 mx-auto bg-slate-800 rounded-full mb-6 border-4 border-blue-500 overflow-hidden shadow-[0_0_25px_rgba(59,130,246,0.5)]">
+                <img src="Title Logo.png" alt="Church Logo" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=LOGO'">
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-white mb-2">Christ Love Ministries</h1>
+            <p class="text-blue-400 uppercase tracking-[0.4em] font-bold text-sm md:text-base">Rundu Branch</p>
+            
+            <button onclick="toggleSidebar()" class="absolute top-10 right-10 text-3xl text-white hover:text-blue-400 transition transform hover:rotate-90 duration-300">
+                <i class="fas fa-bars"></i>
+            </button>
+        </header>
+
+        <main class="max-w-6xl mx-auto px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-32">
+            <div class="glass p-10 text-center" onclick="openTab('vision')">
+                <i class="fas fa-eye text-5xl mb-6 text-blue-400"></i><h3 class="text-2xl font-bold">Vision</h3>
+            </div>
+            <div class="glass p-10 text-center" onclick="openTab('mission')">
+                <i class="fas fa-bullseye text-5xl mb-6 text-blue-400"></i><h3 class="text-2xl font-bold">Mission</h3>
+            </div>
+            <div class="glass p-10 text-center" onclick="openTab('services')">
+                <i class="fas fa-church text-5xl mb-6 text-blue-400"></i><h3 class="text-2xl font-bold">Services</h3>
+            </div>
+            <div class="glass p-10 text-center" onclick="openTab('quotes')">
+                <i class="fas fa-quote-left text-5xl mb-6 text-blue-400"></i><h3 class="text-2xl font-bold">Wisdom</h3>
+            </div>
+            <div class="glass p-10 text-center" onclick="openTab('anchor')">
+                <i class="fas fa-anchor text-5xl mb-6 text-blue-400"></i><h3 class="text-2xl font-bold">Anchor</h3>
+            </div>
+            <div class="glass p-10 text-center" onclick="openTab('leaders')">
+                <i class="fas fa-user-shield text-5xl mb-6 text-blue-400"></i><h3 class="text-2xl font-bold">Apostle</h3>
+            </div>
+        </main>
+    </div>
+
+    <div id="vision" class="tab-page">
+        <button class="back-btn" onclick="closeTab()"><i class="fas fa-arrow-left"></i> Back to Home</button>
+        <div class="max-w-3xl mx-auto text-center mt-12">
+            <h2 class="text-5xl font-bold text-blue-400 mb-8">Our Vision</h2>
+            <p class="text-3xl italic font-light leading-relaxed text-gray-200">"Christ like faith and righteousness for all nations."</p>
+            <p class="mt-8 text-2xl font-bold text-blue-500 tracking-tighter">— 1 Timothy 1:5</p>
+        </div>
+    </div>
+
+    <div id="mission" class="tab-page">
+        <button class="back-btn" onclick="closeTab()"><i class="fas fa-arrow-left"></i> Back to Home</button>
+        <div class="max-w-3xl mx-auto mt-12">
+            <h2 class="text-5xl font-bold text-blue-400 mb-10 text-center">Our Mission</h2>
+            <div class="glass p-10 border-l-8 border-blue-600 bg-blue-900/20">
+                <p class="text-2xl leading-relaxed">
+                    "As we receive the love and mercy of God, we lift up the name of Jesus in power and spiritual warfare, we plant churches, teach and demonstrate the love of God that passes all understanding that all might accept Jesus Christ as their all in all."
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="services" class="tab-page">
+        <button class="back-btn" onclick="closeTab()"><i class="fas fa-arrow-left"></i> Back to Home</button>
+        <div class="max-w-3xl mx-auto mt-12">
+            <h2 class="text-5xl font-bold text-blue-400 mb-12 text-center">Join Us</h2>
+            <div class="grid gap-6">
+                <div class="glass p-6 flex justify-between items-center text-xl"><span>Sunday Services</span> <span class="font-bold text-blue-400">from 8 AM</span></div>
+                <div class="glass p-6 flex justify-between items-center text-xl"><span>Wednesday Services</span> <span class="font-bold text-blue-400">6 PM</span></div>
+                <div class="glass p-6 flex justify-between items-center text-xl"><span>Friday Fellowship</span> <span class="font-bold text-blue-400">from 6 PM</span></div>
+                <div class="p-8 bg-red-900/20 border border-red-500/50 rounded-3xl text-center">
+                    <p class="text-2xl font-bold text-white">Every last Friday of the month we have overnight prayers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="quotes" class="tab-page">
+        <button class="back-btn" onclick="closeTab()"><i class="fas fa-arrow-left"></i> Back to Home</button>
+        <div class="max-w-3xl mx-auto mt-12 space-y-10">
+            <div class="glass p-10 italic text-3xl border-t-4 border-blue-500">
+                "Sometimes we look for employment when we are employers."
+                <span class="block text-right mt-6 text-lg font-bold text-blue-400">— Apostle Joseph K.L</span>
+            </div>
+            <div class="glass p-10 italic text-3xl border-t-4 border-blue-500">
+                "Just as the birds do not compete for space to fly, do not compete for prosperity, it is enough for everyone."
+                <span class="block text-right mt-6 text-lg font-bold text-blue-400">— Apostle Joseph K.L</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="anchor" class="tab-page">
+        <button class="back-btn" onclick="closeTab()"><i class="fas fa-arrow-left"></i> Back to Home</button>
+        <div class="max-w-3xl mx-auto text-center mt-20">
+            <h2 class="text-5xl font-bold text-blue-400 mb-10">Anchor Scripture</h2>
+            <div class="p-12 border-2 border-blue-500/30 rounded-[3rem] bg-blue-900/10">
+                <p class="text-4xl font-serif italic mb-8 leading-tight text-white">"If the foundations be destroyed, what can the righteous do?"</p>
+                <p class="text-3xl font-bold text-blue-400 tracking-widest">— PSALM 11:3</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="leaders" class="tab-page">
+        <button class="back-btn" onclick="closeTab()"><i class="fas fa-arrow-left"></i> Back to Home</button>
+        <div class="max-w-4xl mx-auto text-center mt-8">
+            <h2 class="text-5xl font-bold text-blue-400 mb-12">District Overseer</h2>
+            <div class="flex justify-center">
+                <div class="glass p-10 max-w-sm w-full border-b-8 border-blue-600 shadow-2xl">
+                    <img src="Apostle.JPG" alt="Apostle Joseph Kandjeke Likoro" 
+                         class="w-72 h-72 mx-auto rounded-[2rem] object-cover mb-8 border-4 border-blue-400 shadow-lg"
+                         onerror="this.src='https://via.placeholder.com/300?text=Apostle+Joseph'">
+                    <h3 class="text-3xl font-bold text-white mb-2 leading-tight">Joseph Kandjeke Likoro</h3>
+                    <p class="text-blue-400 font-extrabold text-lg tracking-wider">Apostle & Overseer</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="call" class="tab-page">
+        <button class="back-btn" onclick="closeTab()"><i class="fas fa-arrow-left"></i> Back to Home</button>
+        <div class="max-w-md mx-auto text-center mt-12">
+            <h2 class="text-5xl font-bold mb-12 text-blue-400">Contact Us</h2>
+            <div class="grid gap-6">
+                <a href="tel:0814308121" class="glass p-6 text-3xl font-bold flex items-center justify-center gap-4 hover:bg-blue-600 transition">
+                    <i class="fas fa-phone-alt"></i> 081 430 8121
+                </a>
+                <a href="tel:0814810981" class="glass p-6 text-3xl font-bold flex items-center justify-center gap-4 hover:bg-blue-600 transition">
+                    <i class="fas fa-phone-alt"></i> 081 481 0981
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div onclick="openJoshua()" class="fixed bottom-10 right-10 w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center text-4xl shadow-[0_0_30px_rgba(37,99,235,0.8)] z-50 cursor-pointer hover:scale-110 active:scale-95 transition-all">
+        <i class="fas fa-comment-dots"></i>
+    </div>
+
+    <div id="joshua-modal" class="tab-page" style="background: rgba(2, 6, 23, 0.99);">
+        <button class="back-btn" onclick="closeJoshua()"><i class="fas fa-times"></i> Close Assistant</button>
+        <div class="w-full max-w-2xl mx-auto h-[75vh] bg-slate-900 border border-blue-800 rounded-[2.5rem] flex flex-col overflow-hidden shadow-2xl">
+            <div class="p-6 bg-blue-900/30 border-b border-blue-800 flex items-center gap-4">
+                <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                <h3 class="text-xl font-bold">Joshua Assistant</h3>
+            </div>
+            <div id="joshua-output" class="flex-1 p-8 overflow-y-auto flex flex-col gap-4">
+                <div class="chat-bubble bot-msg">Shalom! I am Joshua. How can I assist you with Christ Love Ministries or provide biblical guidance today?</div>
+            </div>
+            <div class="p-6 bg-slate-800/40 flex gap-4 border-t border-blue-800/50">
+                <input id="joshua-input" type="text" class="flex-1 bg-slate-950 border-none rounded-full px-8 py-4 text-white focus:ring-2 focus:ring-blue-500" placeholder="Ask a question..." onkeypress="if(event.key==='Enter') askJoshua()">
+                <button onclick="askJoshua()" class="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center text-white hover:bg-blue-500"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Slideshow
+        const slides = document.querySelectorAll('.bg-slide');
+        let idx = 0;
+        setInterval(() => {
+            slides[idx].classList.remove('active');
+            idx = (idx + 1) % slides.length;
+            slides[idx].classList.add('active');
+        }, 6000);
+
+        // UI Logic
+        function openTab(id) {
+            document.getElementById(id).classList.add('active');
+            document.getElementById('app-container').classList.add('content-blur');
+        }
+        function closeTab() {
+            document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+            document.getElementById('app-container').classList.remove('content-blur');
+        }
+        function toggleSidebar() { openTab('call'); } // Reusing contact tab as menu for simplicity
+
+        // Joshua AI
+        function openJoshua() { document.getElementById('joshua-modal').classList.add('active'); }
+        function closeJoshua() { document.getElementById('joshua-modal').classList.remove('active'); }
+
+        async function askJoshua() {
+            const input = document.getElementById('joshua-input');
+            const output = document.getElementById('joshua-output');
+            const val = input.value.trim();
+            if(!val) return;
+
+            output.innerHTML += `<div class="chat-bubble user-msg">${val}</div>`;
+            input.value = '';
+            output.scrollTop = output.scrollHeight;
+
+            const thinking = document.createElement('div');
+            thinking.className = 'chat-bubble bot-msg italic text-sm';
+            thinking.innerText = "Searching the Word...";
+            output.appendChild(thinking);
+
+            try {
+                const sys = "You are Joshua for CLM Church. Leader: Apostle Joseph Kandjeke Likoro. Branch: Rundu. Vision: Christ-like faith. Services: Sun 8am, Wed 6pm, Fri 6pm.";
+                const res = await fetch(`https://text.pollinations.ai/${encodeURIComponent(sys + " User: " + val)}`);
+                const txt = await res.text();
+                thinking.remove();
+                output.innerHTML += `<div class="chat-bubble bot-msg">${txt}</div>`;
+                output.scrollTop = output.scrollHeight;
+            } catch (e) {
+                thinking.innerText = "Connection lost. May God bless you!";
+            }
+        }
+    </script>
+</body>
+</html>
