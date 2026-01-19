@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christ Love Ministries | Rundu Branch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Custom Font & Animations */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        body { font-family: 'Poppins', sans-serif; }
+
+        /* Background Slideshow */
+        #bg-slideshow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background: #0f172a; }
+        .bg-slide { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.5s ease-in-out; transform: scale(1.1); }
+        .bg-slide.active { opacity: 0.4; transform: scale(1); transition: opacity 1.5s ease-in-out, transform 10s linear; }
+
+        /* Glassmorphism Utilities */
+        .glass { background: rgba(30, 58, 138, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass-heavy { background: rgba(23, 37, 84, 0.95); backdrop-filter: blur(12px); }
+        
+        /* Blur effect for main content when modals open */
+        .content-blur { filter: blur(5px); pointer-events: none; transition: 0.3s; }
+
+        /* FAB & Menu */
+        .fab { @apply fixed bottom-8 right-8 w-16 h-16 rounded-full bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center shadow-2xl cursor-pointer z-50 transition-transform duration-300; }
+        .fab:hover { transform: rotate(90deg); }
+        .fab-menu-item { @apply w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center absolute shadow-lg cursor-pointer transition-all duration-300 hover:bg-blue-400 text-sm font-bold border-2 border-blue-300; opacity: 0; visibility: hidden; }
+        .fab-menu-item.show { opacity: 1; visibility: visible; }
+
+        /* Pages / Tabs */
+        .tab-page { @apply fixed top-0 left-0 w-full h-full p-8 opacity-0 invisible transition-all duration-500 flex flex-col overflow-y-auto z-40; background: rgba(15, 23, 42, 0.95); }
+        .tab-page.active { opacity: 1; visibility: visible; }
+
+        /* Chat UI */
+        .chat-bubble { max-width: 80%; padding: 10px 15px; border-radius: 15px; margin-bottom: 10px; font-size: 0.95rem; line-height: 1.4; animation: popIn 0.3s ease; }
+        .user-msg { background-color: #3b82f6; align-self: flex-end; color: white; border-bottom-right-radius: 2px; }
+        .bot-msg { background-color: #1e3a8a; align-self: flex-start; color: #bfdbfe; border-bottom-left-radius: 2px; border: 1px solid #3b82f6; }
+        @keyframes popIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-900 text-white overflow-hidden h-screen w-screen relative">
+
+    <div id="bg-slideshow">
+        <img src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1920&auto=format&fit=crop" class="bg-slide active" alt="Sky">
+        <img src="https://images.unsplash.com/photo-1504052434569-70ad5836ab65?q=80&w=1920&auto=format&fit=crop" class="bg-slide" alt="Worship">
+        <img src="https://images.unsplash.com/photo-1510936111840-65e151ad71bb?q=80&w=1920&auto=format&fit=crop" class="bg-slide" alt="Bible">
+    </div>
+
+    <div id="app-container" class="relative w-full h-full overflow-y-auto transition-all duration-300">
+        
+        <header class="text-center py-10 px-4 relative z-10">
+            <div class="w-32 h-32 mx-auto bg-blue-800 rounded-full flex items-center justify-center shadow-2xl mb-4 border-4 border-blue-400 glass">
+                <i class="fas fa-church text-5xl text-blue-200"></i>
+            </div>
+            <h1 class="text-3xl md:text-5xl text-blue-100 font-bold mb-2 tracking-wide drop-shadow-md">Christ Love Ministries</h1>
+            <p class="text-lg text-blue-300 font-light tracking-widest uppercase">Rundu Branch</p>
+
+            <button class="absolute top-8 right-8 text-white text-3xl hover:text-blue-400 transition" onclick="toggleSidebar()" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </header>
+
+        <main class="max-w-5xl mx-auto px-6 pb-24 relative z-10">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div class="glass hover:bg-blue-900 rounded-xl p-6 text-center cursor-pointer transition transform hover:-translate-y-1 hover:shadow-blue-500/50 shadow-lg group" onclick="openTab('vision')">
+                    <i class="fas fa-eye text-4xl text-blue-400 mb-3 group-hover:text-white transition"></i>
+                    <h3 class="text-xl font-bold text-white">Vision</h3>
+                </div>
+                
+                <div class="glass hover:bg-blue-900 rounded-xl p-6 text-center cursor-pointer transition transform hover:-translate-y-1 hover:shadow-blue-500/50 shadow-lg group" onclick="openTab('mission')">
+                    <i class="fas fa-bullseye text-4xl text-blue-400 mb-3 group-hover:text-white transition"></i>
+                    <h3 class="text-xl font-bold text-white">Mission</h3>
+                </div>
+
+                <div class="glass hover:bg-blue-900 rounded-xl p-6 text-center cursor-pointer transition transform hover:-translate-y-1 hover:shadow-blue-500/50 shadow-lg group" onclick="openTab('services')">
+                    <i class="fas fa-clock text-4xl text-blue-400 mb-3 group-hover:text-white transition"></i>
+                    <h3 class="text-xl font-bold text-white">Services</h3>
+                </div>
+
+                <div class="glass hover:bg-blue-900 rounded-xl p-6 text-center cursor-pointer transition transform hover:-translate-y-1 hover:shadow-blue-500/50 shadow-lg group" onclick="openTab('quotes')">
+                    <i class="fas fa-quote-right text-4xl text-blue-400 mb-3 group-hover:text-white transition"></i>
+                    <h3 class="text-xl font-bold text-white">Quotes</h3>
+                </div>
+
+                <div class="glass hover:bg-blue-900 rounded-xl p-6 text-center cursor-pointer transition transform hover:-translate-y-1 hover:shadow-blue-500/50 shadow-lg group" onclick="openTab('leaders')">
+                    <i class="fas fa-users text-4xl text-blue-400 mb-3 group-hover:text-white transition"></i>
+                    <h3 class="text-xl font-bold text-white">Leaders</h3>
+                </div>
+
+                <div class="glass hover:bg-blue-900 rounded-xl p-6 text-center cursor-pointer transition transform hover:-translate-y-1 hover:shadow-blue-500/50 shadow-lg group" onclick="openJoshua()">
+                    <i class="fas fa-robot text-4xl text-blue-400 mb-3 group-hover:text-white transition"></i>
+                    <h3 class="text-xl font-bold text-white">Ask Joshua</h3>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="sidebar" class="fixed top-0 right-[-300px] w-72 h-full glass-heavy flex flex-col p-8 z-50 transition-all duration-500 shadow-2xl">
+        <div class="flex justify-between items-center mb-10">
+            <h2 class="text-2xl font-bold text-blue-300">Menu</h2>
+            <button onclick="toggleSidebar()" class="text-white hover:text-red-400 text-2xl"><i class="fas fa-times"></i></button>
+        </div>
+        <nav class="flex flex-col gap-6 text-lg">
+            <a href="#" class="flex items-center gap-4 hover:text-blue-300 transition" onclick="openTab('about'); toggleSidebar()"><i class="fas fa-info-circle w-6"></i> About Us</a>
+            <a href="#" class="flex items-center gap-4 hover:text-blue-300 transition" onclick="openTab('call'); toggleSidebar()"><i class="fas fa-phone w-6"></i> Contact</a>
+            <a href="#" class="flex items-center gap-4 hover:text-blue-300 transition" onclick="openTab('anchor'); toggleSidebar()"><i class="fas fa-book-bible w-6"></i> Anchor Scripture</a>
+        </nav>
+        <div class="mt-auto text-sm text-blue-400 text-center">
+            &copy; 2024 CLM Rundu
+        </div>
+    </div>
+
+    <div id="vision" class="tab-page">
+        <button onclick="closeTab()" class="mb-8 flex items-center gap-2 text-blue-300 hover:text-white transition"><i class="fas fa-arrow-left"></i> Back</button>
+        <div class="max-w-3xl mx-auto text-center mt-10">
+            <i class="fas fa-eye text-6xl text-blue-500 mb-6"></i>
+            <h2 class="text-4xl font-bold mb-6">Our Vision</h2>
+            <p class="text-xl leading-relaxed text-gray-200">Christlike Faith, Love, Truth, Holiness And Righteousness For All Nations.<br><span class="text-blue-400 text-base block mt-2">– 1 Timothy 1:5</span></p>
+        </div>
+    </div>
+
+    <div id="mission" class="tab-page">
+        <button onclick="closeTab()" class="mb-8 flex items-center gap-2 text-blue-300 hover:text-white transition"><i class="fas fa-arrow-left"></i> Back</button>
+        <div class="max-w-3xl mx-auto mt-10">
+            <h2 class="text-4xl font-bold mb-6 text-center">Our Mission</h2>
+            <p class="text-lg leading-relaxed text-gray-200 mb-6 border-l-4 border-blue-500 pl-6 bg-blue-900/30 p-4 rounded-r">
+                As we receive the love and mercy of God, we lift up the name of Jesus in powerful spiritual warfare and intercession wherever the Holy Spirit leads us.
+            </p>
+            <p class="text-lg leading-relaxed text-gray-200 mb-6 border-l-4 border-blue-500 pl-6 bg-blue-900/30 p-4 rounded-r">
+                We plant churches, teach and demonstrate the love of God that passes all understanding, that all might accept Jesus Christ as their all in all.
+            </p>
+            <p class="text-right text-blue-400 italic">– Ephesians 3:14-19</p>
+        </div>
+    </div>
+
+    <div id="services" class="tab-page">
+        <button onclick="closeTab()" class="mb-8 flex items-center gap-2 text-blue-300 hover:text-white transition"><i class="fas fa-arrow-left"></i> Back</button>
+        <div class="max-w-2xl mx-auto mt-10">
+            <h2 class="text-4xl font-bold mb-8 text-center">Weekly Services</h2>
+            <ul class="space-y-4">
+                <li class="glass p-4 rounded-lg flex items-center gap-4"><div class="bg-blue-600 w-12 h-12 rounded-full flex items-center justify-center font-bold">Sun</div> <div><div class="font-bold">Sunday Worship</div><div class="text-sm text-blue-200">08:00 AM</div></div></li>
+                <li class="glass p-4 rounded-lg flex items-center gap-4"><div class="bg-blue-600 w-12 h-12 rounded-full flex items-center justify-center font-bold">Wed</div> <div><div class="font-bold">Bible Study</div><div class="text-sm text-blue-200">06:00 PM</div></div></li>
+                <li class="glass p-4 rounded-lg flex items-center gap-4"><div class="bg-blue-600 w-12 h-12 rounded-full flex items-center justify-center font-bold">Fri</div> <div><div class="font-bold">Prayer Service</div><div class="text-sm text-blue-200">06:00 PM</div></div></li>
+                <li class="glass p-4 rounded-lg flex items-center gap-4"><div class="bg-red-600 w-12 h-12 rounded-full flex items-center justify-center font-bold">Last</div> <div><div class="font-bold">Night Vigil</div><div class="text-sm text-blue-200">Last Friday of Month</div></div></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="quotes" class="tab-page">
+        <button onclick="closeTab()" class="mb-8 flex items-center gap-2 text-blue-300 hover:text-white transition"><i class="fas fa-arrow-left"></i> Back</button>
+        <div class="max-w-3xl mx-auto mt-10 space-y-8">
+            <h2 class="text-3xl font-bold mb-4 text-center">Words of Wisdom</h2>
+            <blockquote class="glass p-8 rounded-xl border-l-8 border-yellow-500">
+                <p class="text-xl italic mb-4">"Sometimes we look for employment when we are employers."</p>
+                <footer class="text-right text-blue-300 font-bold">– Apostle Joseph K.L</footer>
+            </blockquote>
+            <blockquote class="glass p-8 rounded-xl border-l-8 border-yellow-500">
+                <p class="text-xl italic mb-4">"Just as birds do not compete for space to fly, don't compete for prosperity, it’s enough for everyone."</p>
+                <footer class="text-right text-blue-300 font-bold">– Apostle Joseph K.L</footer>
+            </blockquote>
+        </div>
+    </div>
+
+    <div id="leaders" class="tab-page">
+        <button onclick="closeTab()" class="mb-8 flex items-center gap-2 text-blue-300 hover:text-white transition"><i class="fas fa-arrow-left"></i> Back</button>
+        <div class="text-center mt-20">
+            <i class="fas fa-hard-hat text-6xl text-yellow-500 mb-4"></i>
+            <h2 class="text-3xl font-bold">Under Construction</h2>
+            <p class="text-blue-300 mt-2">Leadership profiles are being updated.</p>
+        </div>
+    </div>
+
+    <div id="about" class="tab-page">
+        <button onclick="closeTab()" class="mb-8 flex items-center gap-2 text-blue-300 hover:text-white transition"><i class="fas fa-arrow-left"></i> Back</button>
+        <h2 class="text-3xl mb-4">About CLM Rundu</h2>
+        <p class="text-lg">Christ Love Ministries Rundu Branch is dedicated to teaching the Word of God, walking in love, and transforming lives through the Gospel of Jesus Christ.</p>
+    </div>
+
+    <div id="anchor" class="tab-page">
+        <button onclick="closeTab()" class="mb-8 flex items-center gap-2 text-blue-300 hover:text-white transition"><i class="fas fa-arrow-left"></i> Back</button>
+        <div class="flex h-full items-center justify-center pb-20">
+            <div class="text-center max-w-2xl">
+                <i class="fas fa-anchor text-6xl text-blue-400 mb-6"></i>
+                <p class="text-3xl italic font-serif leading-normal">"If the foundations are destroyed, what can the righteous do?"</p>
+                <p class="text-xl mt-4 text-blue-300 font-bold">– Psalm 11:3 NKJV</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="call" class="tab-page">
+        <button onclick="closeTab()" class="mb-8 flex items-center gap-2 text-blue-300 hover:text-white transition"><i class="fas fa-arrow-left"></i> Back</button>
+        <div class="flex h-full items-center justify-center pb-20">
+            <div class="glass p-10 rounded-2xl text-center">
+                <i class="fas fa-phone-volume text-5xl text-green-400 mb-4"></i>
+                <h2 class="text-2xl font-bold mb-2">Get in Touch</h2>
+                <p class="text-xl mb-4">+264 81 XXX XXXX</p>
+                <a href="#" class="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-full transition inline-block">Call Now</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="joshua-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeJoshua()"></div>
+        <div class="relative w-full max-w-md h-[500px] bg-slate-900 border border-blue-700 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+            <div class="bg-blue-900 p-4 flex justify-between items-center shadow-md">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center"><i class="fas fa-robot text-white"></i></div>
+                    <div>
+                        <h3 class="font-bold text-white">Joshua Assistant</h3>
+                        <p class="text-xs text-green-400 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-400"></span> Online</p>
+                    </div>
+                </div>
+                <button onclick="closeJoshua()" class="text-gray-300 hover:text-white"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            
+            <div id="joshua-output" class="flex-1 p-4 overflow-y-auto flex flex-col gap-2 bg-slate-800/50">
+                <div class="chat-bubble bot-msg">
+                    Shalom! I am Joshua. How can I assist you with Christ Love Ministries today?
+                </div>
+            </div>
+            
+            <div class="p-4 bg-slate-900 border-t border-blue-800 flex gap-2">
+                <input id="joshua-input" type="text" class="flex-1 bg-slate-800 border border-blue-700 rounded-full px-4 py-2 text-white focus:outline-none focus:border-blue-500" placeholder="Type a message..." onkeypress="handleEnter(event)">
+                <button onclick="askJoshua()" class="w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-500 flex items-center justify-center text-white transition"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="fab-menu" class="fixed bottom-8 right-8 w-64 h-64 pointer-events-none z-50"></div>
+    <div id="fab" class="fab" onclick="toggleFabMenu()">
+        <i class="fas fa-plus text-2xl transition-transform" id="fab-icon"></i>
+    </div>
+
+    <script>
+        // --- Slideshow Logic ---
+        const slides = document.querySelectorAll('.bg-slide');
+        let currentSlide = 0;
+        
+        setInterval(() => {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }, 6000);
+
+        // --- Navigation Logic ---
+        const appContainer = document.getElementById('app-container');
+        
+        function openTab(id) {
+            document.querySelectorAll('.tab-page').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            appContainer.classList.add('content-blur');
+        }
+        
+        function closeTab() {
+            document.querySelectorAll('.tab-page').forEach(t => t.classList.remove('active'));
+            appContainer.classList.remove('content-blur');
+        }
+
+        // --- Sidebar Logic ---
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            const isOpen = sb.classList.contains('right-0');
+            
+            if (isOpen) {
+                sb.classList.remove('right-0');
+                sb.classList.add('right-[-300px]');
+                appContainer.classList.remove('content-blur');
+            } else {
+                sb.classList.remove('right-[-300px]');
+                sb.classList.add('right-0');
+                appContainer.classList.add('content-blur');
+            }
+        }
+
+        // --- FAB Menu Logic ---
+        let fabOpen = false;
+        const fabMenu = document.getElementById('fab-menu');
+        const fabIcon = document.getElementById('fab-icon');
+
+        function toggleFabMenu() {
+            fabOpen = !fabOpen;
+            fabIcon.style.transform = fabOpen ? 'rotate(45deg)' : 'rotate(0deg)';
+            fabMenu.innerHTML = '';
+            
+            if (fabOpen) {
+                const items = [
+                    { icon: 'fa-robot', action: openJoshua, color: 'bg-purple-500' },
+                    { icon: 'fa-users', action: () => openTab('leaders'), color: 'bg-yellow-500' },
+                    { icon: 'fa-quote-right', action: () => openTab('quotes'), color: 'bg-green-500' }
+                ];
+
+                items.forEach((it, i) => {
+                    const el = document.createElement('div');
+                    el.className = `fab-menu-item ${it.color} flex items-center justify-center`;
+                    el.innerHTML = `<i class="fas ${it.icon}"></i>`;
+                    
+                    // Simple radial math relative to bottom-right
+                    const angle = (i / (items.length - 1)) * (Math.PI / 2); // Spread over 90 degrees
+                    const radius = 90;
+                    
+                    // Positioning relative to the FAB container
+                    const right = 8 + (Math.cos(angle) * radius);
+                    const bottom = 8 + (Math.sin(angle) * radius);
+                    
+                    el.style.right = '2rem'; // start position
+                    el.style.bottom = '2rem'; // start position
+                    el.style.pointerEvents = "auto";
+                    
+                    el.onclick = () => { it.action(); toggleFabMenu(); };
+                    fabMenu.appendChild(el);
+
+                    // Animate out
+                    setTimeout(() => {
+                        el.classList.add('show');
+                        el.style.right = `${right}px`;
+                        el.style.bottom = `${bottom}px`;
+                    }, i * 50);
+                });
+            }
+        }
+
+        // --- Joshua AI Logic (Secure Simulation) ---
+        const joshuaModal = document.getElementById('joshua-modal');
+        const joshuaOutput = document.getElementById('joshua-output');
+        const joshuaInput = document.getElementById('joshua-input');
+
+        function openJoshua() {
+            joshuaModal.classList.remove('hidden');
+            joshuaModal.classList.add('flex');
+            joshuaInput.focus();
+        }
+
+        function closeJoshua() {
+            joshuaModal.classList.add('hidden');
+            joshuaModal.classList.remove('flex');
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') askJoshua();
+        }
+
+        function askJoshua() {
+            const text = joshuaInput.value.trim();
+            if (!text) return;
+
+            // 1. Add User Message
+            appendMessage(text, 'user');
+            joshuaInput.value = '';
+
+            // 2. Simulate AI "Typing"
+            const loadingId = 'loading-' + Date.now();
+            joshuaOutput.innerHTML += `<div id="${loadingId}" class="chat-bubble bot-msg text-xs italic opacity-70"><i class="fas fa-circle-notch fa-spin"></i> Joshua is typing...</div>`;
+            joshuaOutput.scrollTop = joshuaOutput.scrollHeight;
+
+            // 3. Simulated Response (Client Side Safe)
+            // NOTE FOR DEVELOPER: To use real OpenAI, replace this setTimeout with a fetch() to your BACKEND SERVER.
+            // Do not put API keys here.
+            setTimeout(() => {
+                document.getElementById(loadingId).remove();
+                
+                let reply = "I am a demo AI for this website interface. To get real spiritual answers, the developer needs to connect me to a backend server!";
+                
+                // Simple keyword matching for demo feel
+                const lowerText = text.toLowerCase();
+                if(lowerText.includes('service') || lowerText.includes('time')) reply = "Services are Sunday at 8 AM, Wednesday at 6 PM, and Friday at 6 PM.";
+                if(lowerText.includes('vision')) reply = "Our vision is Christlike Faith, Love, Truth, Holiness And Righteousness For All Nations (1 Tim 1:5).";
+                if(lowerText.includes('pastor') || lowerText.includes('leader')) reply = "Our leader is Apostle Joseph K.L.";
+                
+                appendMessage(reply, 'bot');
+            }, 1500);
+        }
+
+        function appendMessage(text, sender) {
+            const div = document.createElement('div');
+            div.className = `chat-bubble ${sender === 'user' ? 'user-msg' : 'bot-msg'}`;
+            div.innerText = text;
+            joshuaOutput.appendChild(div);
+            joshuaOutput.scrollTop = joshuaOutput.scrollHeight;
+        }
+    </script>
+</body>
+</html>
